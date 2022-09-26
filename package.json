@@ -41,6 +41,6 @@
 	],
 	"dependencies": {
 		"@types/node-jose": "^1.1.10",
-		"node-jose": "^2.1.1"
+		"jose": "^4.9.3"
 	}
 }
