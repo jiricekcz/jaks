@@ -170,10 +170,10 @@ export interface JWTPayloadOptions {
 }
 export interface JWTPayloadOptionsDefault extends JWTPayloadOptions {}
 
-export interface JWTJSONForm<O extends JWTPayloadOptions, P extends {} | undefined, H extends {} | undefined> {
+export interface JWTJSONForm<O extends JWTPayloadOptions, P extends {} | undefined, H extends {} | undefined, SIG extends boolean = true> {
     header: H extends {} ? H & JWTHeader : JWTHeader;
     payload: P extends {} ? P & JWTPayloadJSONForm<O> : JWTPayloadJSONForm<O>;
-    signature: string;
+    signature: SIG extends true ? string : undefined;
 }
 export interface JWTHeader {
     readonly alg: Algorithm;
@@ -204,7 +204,8 @@ export interface JWTPayloadJSONForm<O extends JWTPayloadOptions = JWTPayloadOpti
 export interface JWTConstructorOptions<
     O extends JWTPayloadOptions,
     P extends {} | undefined,
-    H extends {} | undefined
+    H extends {} | undefined,
+    SIG extends boolean = true
 > {
     /**
      * Algorithm used to sign the JWT
@@ -247,7 +248,7 @@ export interface JWTConstructorOptions<
      */
     readonly jwtID: O["jti"];
 
-    readonly signature: string;
+    readonly signature: SIG extends true ? string : undefined;
 
     readonly additionalHeaders: H;
     readonly additionalPayload: P;

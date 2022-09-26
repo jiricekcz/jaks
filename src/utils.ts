@@ -1,3 +1,4 @@
+import { JWTHeader, JWTPayload } from "./jwt";
 import { Algorithm, ALGORITHMS } from "./types";
 
 export function isValidAlgorithm(alg: unknown): alg is Algorithm {
@@ -16,4 +17,8 @@ export function filterObject<T extends {}, R extends {} = Partial<T>>(
         }
     }
     return filtered as R;
+}
+
+export function getSignableString(header: JWTHeader<any>, payload: JWTPayload<any, any>): string {
+    return `${header.toString()}.${payload.toString()}`;
 }

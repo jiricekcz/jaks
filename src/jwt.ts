@@ -10,18 +10,19 @@ import {
     JWTPayloadOptions,
     JWTPayloadOptionsDefault,
 } from "./types";
-import { filterObject, isValidAlgorithm } from "./utils";
+import { filterObject, getSignableString, isValidAlgorithm } from "./utils";
 import jose from "node-jose";
 export class JWTToken<
     O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
     P extends {} | undefined = undefined,
-    H extends {} | undefined = undefined
+    H extends {} | undefined = undefined,
+    SIG extends boolean = true
 > {
     public readonly header: JWTHeader<H>;
     public readonly payload: JWTPayload<P, O>;
-    public readonly signature: string;
+    public readonly signature: SIG extends true ? string : undefined;
 
-    constructor(options: JWTConstructorOptions<O, P, H>) {
+    constructor(options: JWTConstructorOptions<O, P, H, SIG>) {
         this.header = new JWTHeader<H>({
             alg: options.algorithm,
             additionalHeaders: options.additionalHeaders,
@@ -41,7 +42,7 @@ export class JWTToken<
         this.signature = options.signature;
     }
 
-    public toJSON(): JWTJSONForm<O, P, H> {
+    public toJSON(): JWTJSONForm<O, P, H, SIG> {
         return {
             header: this.header.toJSON(),
             payload: this.payload.toJSON(),
@@ -50,15 +51,20 @@ export class JWTToken<
     }
 
     public toString(): string {
-        return `${this.header.toString()}.${this.payload.toString()}.${this.signature.toString()}`;
+        return `${this.header.toString()}.${this.payload.toString()}.${this.signature ? this.signature.toString(): ""}`;
+    }
+
+    public getSignableString(): string {
+        return getSignableString(this.header, this.payload);
     }
 
     public static fromJSON<
         O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
         P extends {} | undefined = undefined,
-        H extends {} | undefined = undefined
-    >(json: JWTJSONForm<O, P, H>): JWTToken<O, P, H> {
-        return new JWTToken<O, P, H>({
+        H extends {} | undefined = undefined,
+        SIG extends boolean = true
+    >(json: JWTJSONForm<O, P, H, SIG>): JWTToken<O, P, H, SIG> {
+        return new JWTToken<O, P, H, SIG>({
             algorithm: json.header.alg,
             issuer: json.payload.iss,
             subject: json.payload.sub,
@@ -80,16 +86,20 @@ export class JWTToken<
     public static fromString<
         O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
         P extends {} | undefined = undefined,
-        H extends {} | undefined = undefined
-    >(token: string): JWTToken<O, P, H> {
+        H extends {} | undefined = undefined,
+        SIG extends boolean = true
+    >(token: string): JWTToken<O, P, H, SIG> {
         const [header, payload, signature] = token.split(".");
-        if (!header || !payload || !signature) {
+        if (!header || !payload) {
             throw new Error("Invalid JWT token");
         }
-        return JWTToken.fromJSON<O, P, H>({
+        if (signature === undefined) {
+            throw new Error("Invalid JWT token. Unsigned tokens must end with a period. See JWT specification.");
+        }
+        return JWTToken.fromJSON<O, P, H, SIG>({
             header: JWTHeader.fromString<H>(header).toJSON(),
             payload: JWTPayload.fromString<P, O>(payload).toJSON(),
-            signature,
+            signature: (signature == "" ? undefined : signature ) as SIG extends true ? string : undefined,
         });
     }
 }
