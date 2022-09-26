@@ -61,6 +61,14 @@ export class JWTToken<
     }
 
     /**
+     * Checks if the token has a signature. The signature does not have to be valid.
+     */
+    public isSigned(): SIG {
+        if (this.signature === undefined) return false as SIG;
+        return true as SIG;
+    }
+
+    /**
      * Verifies, if the token is valid at a given time. If the token is not valid, returns false.
      * @param reseve Minimum time to reserve before expiration. Defaults to 1 second.
      * @param at A time when to perfrom the validation. Defaults to current time.
