@@ -2,8 +2,8 @@ module.exports = {
     root: true,
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        tsconfigRootDir: __dirname,
-        project: ['./tsconfig.json'],
+        tsconfigRootDir: __dirname + '/src',
+        project: ['../tsconfig.json'],
     },
     plugins: [
         '@typescript-eslint',
@@ -17,5 +17,6 @@ module.exports = {
         "eslint-comments/no-aggregating-enable": "error",
         "eslint-comments/no-duplicate-disable": "error",
         "eslint-comments/no-unlimited-disable": "error",
-    }
+    },
+
 };

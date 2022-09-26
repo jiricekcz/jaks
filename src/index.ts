@@ -1,6 +1,7 @@
 import * as jwt from "./jwt";
 import { JWTPayloadOptions } from "./types";
-
+import * as interfaces from "./types";
+import * as utils from "./utils";
 interface TokenOptions extends JWTPayloadOptions {
     iss: string;
     sub: string;
@@ -27,3 +28,11 @@ const token = new jwt.JWTToken<TokenOptions>({
 
 console.log(token.toString());
 console.log(jwt.JWTToken.fromString<TokenOptions>(token.toString()).toString());
+
+export default {
+    JWTToken: jwt.JWTToken,
+    JWTTokenHeader: jwt.JWTHeader,
+    JWTPayload: jwt.JWTPayload,
+    interfaces,
+    utils,
+};
