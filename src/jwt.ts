@@ -11,7 +11,6 @@ import {
     JWTPayloadOptionsDefault,
 } from "./types";
 import { filterObject, getSignableString, isValidAlgorithm } from "./utils";
-import jose from "node-jose";
 export class JWTToken<
     O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
     P extends {} | undefined = undefined,
@@ -118,18 +117,29 @@ export class JWTToken<
 
     /**
      * Checks if the token is issued by a trusted issuer.
-     * @param issuerIsTruseted A string of a trusted issuer, array of trusted issuers, or a function that checks if a given issuer is trusted. 
-     * @returns 
+     * @param issuerIsTruseted A string of a trusted issuer, array of trusted issuers, or a function that checks if a given issuer is trusted.
+     * @returns
      */
-    public async isFromTrustedIssuer(issuerIsTruseted: ((issuer: string) => Promise<boolean>) | string | string[]): Promise<boolean> {
-        if (!this.payload.iss) return false;
+    public async isFromTrustedIssuer(
+        issuerIsTruseted: ((issuer: string) => Promise<boolean>) | string | string[]
+    ): Promise<boolean> {
+        if (this.payload.iss === undefined) return false;
         if (Array.isArray(issuerIsTruseted)) {
-            return issuerIsTruseted.includes(this.payload.iss);
+            return issuerIsTruseted.includes(this.payload.iss as string);
         }
         if (typeof issuerIsTruseted === "function") {
-            return await issuerIsTruseted(this.payload.iss);
+            return await issuerIsTruseted(this.payload.iss as string);
         }
         return this.payload.iss === issuerIsTruseted;
+    }
+
+    public async sign(key): Promise<JWTToken<O, P, H, true>> {
+
+    }
+
+
+    public async verifySignature(key): Promise<boolean> {
+
     }
     public static fromJSON<
         O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
