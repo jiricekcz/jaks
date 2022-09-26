@@ -60,6 +60,69 @@ export class JWTToken<
         return getSignableString(this.header, this.payload);
     }
 
+    /**
+     * Verifies, if the token is valid at a given time. If the token is not valid, returns false.
+     * @param reseve Minimum time to reserve before expiration. Defaults to 1 second.
+     * @param at A time when to perfrom the validation. Defaults to current time.
+     */
+    public isNotExpired(reseve: number = 1000, at: Date = new Date()): boolean {
+        return this.payload.exp.getTime() - at.getTime() > reseve;
+    }
+
+    /**
+     * Validates, if the token is after the not before date. If the token is not after the not before date, returns true.
+     * @param at A time when to perfrom the validation. Defaults to current time.
+     */
+    public isAfterNotBefore(at: Date = new Date()): boolean {
+        if (!this.payload.nbf) return true;
+        return this.payload.nbf.getTime() <= at.getTime();
+    }
+
+    /**
+     * Verifies time parameters of the token.
+     * @param reserve Minimum time to reserve before expiration. Defaults to 1 second.
+     * @param at A time when to perfrom the validation. Defaults to current time.
+     */
+    public isTimeValid(reserve: number = 1000, at: Date = new Date()): boolean {
+        return this.isNotExpired(reserve, at) && this.isAfterNotBefore(at);
+    }
+
+    /**
+     * Verifies if the audience of the token is correct. If audience is not present on the token, returns true.
+     * @param audience Audience to check.
+     */
+    public isCorrectAudience(audience: string): boolean {
+        if (this.payload.aud === undefined) return true;
+        if (Array.isArray(this.payload.aud)) {
+            return this.payload.aud.includes(audience);
+        }
+        return this.payload.aud === audience;
+    }
+
+    /**
+     * Checks if the token was issued after a given date. If the token does not have an issued at date, returns undefined.
+     * @param at A time when to perfrom the validation. Defaults to current time.
+     */
+    public isIssuedAfter(at: Date = new Date()): boolean | undefined {
+        if (!this.payload.iat) return undefined;
+        return this.payload.iat.getTime() <= at.getTime();
+    }
+
+    /**
+     * Checks if the token is issued by a trusted issuer.
+     * @param issuerIsTruseted A string of a trusted issuer, array of trusted issuers, or a function that checks if a given issuer is trusted. 
+     * @returns 
+     */
+    public async isFromTrustedIssuer(issuerIsTruseted: ((issuer: string) => Promise<boolean>) | string | string[]): Promise<boolean> {
+        if (!this.payload.iss) return false;
+        if (Array.isArray(issuerIsTruseted)) {
+            return issuerIsTruseted.includes(this.payload.iss);
+        }
+        if (typeof issuerIsTruseted === "function") {
+            return await issuerIsTruseted(this.payload.iss);
+        }
+        return this.payload.iss === issuerIsTruseted;
+    }
     public static fromJSON<
         O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
         P extends {} | undefined = undefined,
