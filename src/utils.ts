@@ -22,3 +22,7 @@ export function filterObject<T extends {}, R extends {} = Partial<T>>(
 export function getSignableString(header: JWTHeader<any>, payload: JWTPayload<any, any>): string {
     return `${header.toString()}.${payload.toString()}`;
 }
+export function roundDecPlaces(num: number, places: number): number {
+    const multiplier = 10 ** places;
+    return Math.round(num * multiplier) / multiplier;
+}

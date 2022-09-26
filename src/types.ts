@@ -174,7 +174,7 @@ export interface JWTJSONForm<
     O extends JWTPayloadOptions,
     P extends {} | undefined,
     H extends {} | undefined,
-    SIG extends boolean = true
+    SIG extends boolean,
 > {
     header: H extends {} ? H & JWTHeader : JWTHeader;
     payload: P extends {} ? P & JWTPayloadJSONForm<O> : JWTPayloadJSONForm<O>;
@@ -206,11 +206,18 @@ export interface JWTPayloadJSONForm<O extends JWTPayloadOptions = JWTPayloadOpti
 }
 
 // ! OTHER DEFINITIONS
+export const TIME_UNITS = ["seconds", "milliseconds", "mircoseconds"] as const;
+export type TimeUnit = typeof TIME_UNITS[number];
+export const TimeUnitsMSMultiplierMap: Record<TimeUnit, number> = {
+    seconds: 0.001,
+    milliseconds: 1,
+    mircoseconds: 1000,
+}
 export interface JWTConstructorOptions<
     O extends JWTPayloadOptions,
     P extends {} | undefined,
     H extends {} | undefined,
-    SIG extends boolean = true
+    SIG extends boolean = true,
 > {
     /**
      * Algorithm used to sign the JWT

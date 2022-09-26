@@ -1,3 +1,4 @@
+// ! THIS FILE IS A TYPE HELL, IT IS ALL GENERIC MAGIC, READ VERY CAREFULLY BEFORE EDITING !
 import {
     Algorithm,
     JWTConstructorOptions,
@@ -9,8 +10,14 @@ import {
     JWTPayloadJSONForm,
     JWTPayloadOptions,
     JWTPayloadOptionsDefault,
+    TimeUnit,
+    TimeUnitsMSMultiplierMap,
 } from "./types";
-import { filterObject, getSignableString, isValidAlgorithm } from "./utils";
+import { filterObject, getSignableString, isValidAlgorithm, roundDecPlaces } from "./utils";
+import base64url from "base64url";
+import * as jose from "jose";
+const ROUND_DEC_PLACES = 2;
+const TIME_UNIT: TimeUnit = "seconds";
 export class JWTToken<
     O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
     P extends {} | undefined = undefined,
@@ -37,7 +44,6 @@ export class JWTToken<
             jti: options.jwtID,
             additionalPayload: options.additionalPayload,
         });
-
         this.signature = options.signature;
     }
 
@@ -117,30 +123,81 @@ export class JWTToken<
 
     /**
      * Checks if the token is issued by a trusted issuer.
-     * @param issuerIsTruseted A string of a trusted issuer, array of trusted issuers, or a function that checks if a given issuer is trusted.
+     * @param issuerIsTrusted A string of a trusted issuer, array of trusted issuers, or a function that checks if a given issuer is trusted.
      * @returns
      */
     public async isFromTrustedIssuer(
-        issuerIsTruseted: ((issuer: string) => Promise<boolean>) | string | string[]
+        issuerIsTrusted: ((issuer: string) => Promise<boolean>) | string | string[]
     ): Promise<boolean> {
         if (this.payload.iss === undefined) return false;
-        if (Array.isArray(issuerIsTruseted)) {
-            return issuerIsTruseted.includes(this.payload.iss as string);
+        if (Array.isArray(issuerIsTrusted)) {
+            return issuerIsTrusted.includes(this.payload.iss as string);
         }
-        if (typeof issuerIsTruseted === "function") {
-            return await issuerIsTruseted(this.payload.iss as string);
+        if (typeof issuerIsTrusted === "function") {
+            return await issuerIsTrusted(this.payload.iss as string);
         }
-        return this.payload.iss === issuerIsTruseted;
+        return this.payload.iss === issuerIsTrusted;
     }
 
-    public async sign(key): Promise<JWTToken<O, P, H, true>> {
-
+    /**
+     * Signs the token with a given key.
+     * @param key Private key to sign the token with.
+     * @returns Signature string
+     */
+    protected async getSignature(key: jose.KeyLike | Uint8Array): Promise<string> {
+        const sign = await new jose.SignJWT(this.payload.toJSON() as unknown as jose.JWTPayload)
+            .setProtectedHeader(this.header.toJSON() as unknown as jose.JWTHeaderParameters)
+            .sign(key);
+        return sign.split(".").at(-1) as string;
     }
 
-
-    public async verifySignature(key): Promise<boolean> {
-
+    /**
+     * Signs the token with a given key and returns a new token object with the signature.
+     * @param key Private key to sign the token with.
+     * @returns A signed token.
+     */
+    public async sign(key: jose.KeyLike | Uint8Array): Promise<JWTToken<O, P, H, true>> {
+        const signature = await this.getSignature(key);
+        const json: JWTJSONForm<O, P, H, boolean> = this.toJSON();
+        json.signature = signature;
+        return JWTToken.fromJSON<O, P, H, true>(json);
     }
+
+    /**
+     * Checks the signature of a token.
+     * @param key Public key to verify the token with.
+     * @returns Whether the token has a valid signature.
+     */
+    public async verifySignature(key: jose.KeyLike | Uint8Array): Promise<boolean> {
+        try {
+            await jose.jwtVerify(this.toString(), key);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
+    public async verify(
+        key: jose.KeyLike | Uint8Array,
+
+        reserve: number = 1000,
+        at: Date = new Date(),
+        issuerIsTrusted?: ((issuer: string) => Promise<boolean>) | string | string[],
+        audience?: string
+    ): Promise<boolean> {
+        return (
+            (await this.verifySignature(key)) &&
+            this.isTimeValid(reserve, at) &&
+            (audience === undefined ? true : this.isCorrectAudience(audience)) &&
+            ((issuerIsTrusted === undefined ? true : await this.isFromTrustedIssuer(issuerIsTrusted)))
+        );
+    }
+
+    /**
+     * Creates a new token from a JSON object.
+     * @param json JSON object of the JWT
+     * @returns A JWT token object.
+     */
     public static fromJSON<
         O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
         P extends {} | undefined = undefined,
@@ -152,9 +209,15 @@ export class JWTToken<
             issuer: json.payload.iss,
             subject: json.payload.sub,
             audience: json.payload.aud,
-            expiration: new Date(json.payload.exp * 1000),
-            issuedAt: json.payload.iat === undefined ? undefined : new Date((json.payload.iat as number) * 1000),
-            notBefore: json.payload.nbf === undefined ? undefined : new Date((json.payload.nbf as number) * 1000),
+            expiration: new Date(json.payload.exp / TimeUnitsMSMultiplierMap[TIME_UNIT]),
+            issuedAt:
+                json.payload.iat === undefined
+                    ? undefined
+                    : new Date((json.payload.iat as number) / TimeUnitsMSMultiplierMap[TIME_UNIT]),
+            notBefore:
+                json.payload.nbf === undefined
+                    ? undefined
+                    : new Date((json.payload.nbf as number) / TimeUnitsMSMultiplierMap[TIME_UNIT]),
             jwtID: json.payload.jti,
             signature: json.signature,
 
@@ -166,6 +229,11 @@ export class JWTToken<
         });
     }
 
+    /**
+     * Interprets a string as a JWT token.
+     * @param token A JWT token string.
+     * @returns A JWT token object.
+     */
     public static fromString<
         O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
         P extends {} | undefined = undefined,
@@ -187,6 +255,9 @@ export class JWTToken<
     }
 }
 
+/**
+ * A JWT header.
+ */
 export class JWTHeader<A extends {} | undefined = undefined> implements IJWTHeader {
     public readonly alg: Algorithm;
     public readonly typ: "JWT";
@@ -208,7 +279,7 @@ export class JWTHeader<A extends {} | undefined = undefined> implements IJWTHead
     }
 
     toString(): string {
-        return jose.util.base64url.encode(JSON.stringify(this.toJSON()), "utf-8");
+        return base64url.encode(JSON.stringify(this.toJSON()), "utf-8");
     }
 
     static fromJSON<A extends {} | undefined = undefined>(
@@ -221,7 +292,7 @@ export class JWTHeader<A extends {} | undefined = undefined> implements IJWTHead
     }
 
     static fromString<A extends {} | undefined = undefined>(header: string): JWTHeader<A> {
-        return this.fromJSON<A>(JSON.parse(jose.util.base64url.decode(header).toString("utf-8")));
+        return this.fromJSON<A>(JSON.parse(base64url.decode(header)));
     }
 }
 
@@ -255,16 +326,22 @@ export class JWTPayload<A extends {} | undefined = undefined, O extends JWTPaylo
             iss: this.iss,
             sub: this.sub,
             aud: this.aud,
-            exp: this.exp.getTime() / 1000,
-            nbf: this.nbf?.getTime() === undefined ? undefined : this.nbf.getTime() / 1000,
-            iat: this.iat?.getTime() === undefined ? undefined : this.iat.getTime() / 1000,
+            exp: roundDecPlaces(this.exp.getTime() * TimeUnitsMSMultiplierMap[TIME_UNIT], ROUND_DEC_PLACES),
+            nbf:
+                this.nbf?.getTime() === undefined
+                    ? undefined
+                    : roundDecPlaces(this.nbf.getTime() * TimeUnitsMSMultiplierMap[TIME_UNIT], ROUND_DEC_PLACES),
+            iat:
+                this.iat?.getTime() === undefined
+                    ? undefined
+                    : roundDecPlaces(this.iat.getTime() * TimeUnitsMSMultiplierMap[TIME_UNIT], ROUND_DEC_PLACES),
             jti: this.jti,
             ...this.additional,
         } as A extends {} ? JWTPayloadJSONForm<O> & A : JWTPayloadJSONForm<O>;
     }
 
     toString(): string {
-        return jose.util.base64url.encode(JSON.stringify(this.toJSON()), "utf-8");
+        return base64url.encode(JSON.stringify(this.toJSON()), "utf-8");
     }
 
     static fromJSON<A extends {} | undefined = undefined, O extends JWTPayloadOptions = JWTPayloadOptionsDefault>(
@@ -289,6 +366,6 @@ export class JWTPayload<A extends {} | undefined = undefined, O extends JWTPaylo
     static fromString<A extends {} | undefined = undefined, O extends JWTPayloadOptions = JWTPayloadOptionsDefault>(
         payload: string
     ): JWTPayload<A, O> {
-        return this.fromJSON<A, O>(JSON.parse(jose.util.base64url.decode(payload).toString("utf-8")));
+        return this.fromJSON<A, O>(JSON.parse(base64url.decode(payload)));
     }
 }
