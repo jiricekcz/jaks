@@ -1,13 +1,13 @@
-import * as jwt from "./jwt"
-import { JWTPayloadOptions } from "./types"
+import * as jwt from "./jwt";
+import { JWTPayloadOptions } from "./types";
 
 interface TokenOptions extends JWTPayloadOptions {
     iss: string;
     sub: string;
     aud: string;
-    nbf: undefined,
-    iat: undefined,
-    jti: undefined,
+    nbf: undefined;
+    iat: undefined;
+    jti: undefined;
 }
 
 const token = new jwt.JWTToken<TokenOptions>({
@@ -23,8 +23,7 @@ const token = new jwt.JWTToken<TokenOptions>({
     notBefore: undefined,
     issuedAt: undefined,
     jwtID: undefined,
+});
 
-})
-
-console.log(token.toString())
-console.log(jwt.JWTToken.fromString<TokenOptions>(token.toString()).toString())
+console.log(token.toString());
+console.log(jwt.JWTToken.fromString<TokenOptions>(token.toString()).toString());

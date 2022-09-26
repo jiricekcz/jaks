@@ -170,11 +170,7 @@ export interface JWTPayloadOptions {
 }
 export interface JWTPayloadOptionsDefault extends JWTPayloadOptions {}
 
-export interface JWTJSONForm<
-    O extends JWTPayloadOptions,
-    P extends {} | undefined,
-    H extends {} | undefined
-> {
+export interface JWTJSONForm<O extends JWTPayloadOptions, P extends {} | undefined, H extends {} | undefined> {
     header: H extends {} ? H & JWTHeader : JWTHeader;
     payload: P extends {} ? P & JWTPayloadJSONForm<O> : JWTPayloadJSONForm<O>;
     signature: string;
@@ -208,7 +204,7 @@ export interface JWTPayloadJSONForm<O extends JWTPayloadOptions = JWTPayloadOpti
 export interface JWTConstructorOptions<
     O extends JWTPayloadOptions,
     P extends {} | undefined,
-    H extends {} | undefined,
+    H extends {} | undefined
 > {
     /**
      * Algorithm used to sign the JWT

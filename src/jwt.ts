@@ -64,8 +64,8 @@ export class JWTToken<
             subject: json.payload.sub,
             audience: json.payload.aud,
             expiration: new Date(json.payload.exp * 1000),
-            issuedAt: json.payload.iat === undefined ? undefined : new Date(json.payload.iat as number * 1000),
-            notBefore: json.payload.nbf === undefined ? undefined : new Date(json.payload.nbf as number * 1000),
+            issuedAt: json.payload.iat === undefined ? undefined : new Date((json.payload.iat as number) * 1000),
+            notBefore: json.payload.nbf === undefined ? undefined : new Date((json.payload.nbf as number) * 1000),
             jwtID: json.payload.jti,
             signature: json.signature,
 
@@ -180,10 +180,10 @@ export class JWTPayload<A extends {} | undefined = undefined, O extends JWTPaylo
         return new JWTPayload<A, O>({
             aud: payload.aud,
             exp: new Date(payload.exp * 1000),
-            iat: payload.iat === undefined ? undefined : new Date(payload.iat as number * 1000),
+            iat: payload.iat === undefined ? undefined : new Date((payload.iat as number) * 1000),
             iss: payload.iss,
             jti: payload.jti,
-            nbf: payload.nbf === undefined ? undefined : new Date(payload.nbf as number * 1000),
+            nbf: payload.nbf === undefined ? undefined : new Date((payload.nbf as number) * 1000),
             sub: payload.sub,
 
             additionalPayload: filterObject(
