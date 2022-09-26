@@ -51,7 +51,9 @@ export class JWTToken<
     }
 
     public toString(): string {
-        return `${this.header.toString()}.${this.payload.toString()}.${this.signature ? this.signature.toString(): ""}`;
+        return `${this.header.toString()}.${this.payload.toString()}.${
+            this.signature ? this.signature.toString() : ""
+        }`;
     }
 
     public getSignableString(): string {
@@ -99,7 +101,7 @@ export class JWTToken<
         return JWTToken.fromJSON<O, P, H, SIG>({
             header: JWTHeader.fromString<H>(header).toJSON(),
             payload: JWTPayload.fromString<P, O>(payload).toJSON(),
-            signature: (signature == "" ? undefined : signature ) as SIG extends true ? string : undefined,
+            signature: (signature == "" ? undefined : signature) as SIG extends true ? string : undefined,
         });
     }
 }

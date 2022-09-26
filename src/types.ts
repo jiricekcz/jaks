@@ -170,7 +170,12 @@ export interface JWTPayloadOptions {
 }
 export interface JWTPayloadOptionsDefault extends JWTPayloadOptions {}
 
-export interface JWTJSONForm<O extends JWTPayloadOptions, P extends {} | undefined, H extends {} | undefined, SIG extends boolean = true> {
+export interface JWTJSONForm<
+    O extends JWTPayloadOptions,
+    P extends {} | undefined,
+    H extends {} | undefined,
+    SIG extends boolean = true
+> {
     header: H extends {} ? H & JWTHeader : JWTHeader;
     payload: P extends {} ? P & JWTPayloadJSONForm<O> : JWTPayloadJSONForm<O>;
     signature: SIG extends true ? string : undefined;
