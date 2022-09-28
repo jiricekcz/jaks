@@ -121,35 +121,35 @@ export interface JWK_RSA_Public_Encrypt extends JWKBase {
 }
 
 export interface JWK_RSA_Private_Sign extends JWKBase {
-    kty: "RSA";
-    use: "sig";
-    key_ops: ("sign" | "verify")[];
-    alg: RSAAlgorithm;
+    readonly kty: "RSA";
+    readonly use: "sig";
+    readonly key_ops: ("sign" | "verify")[];
+    readonly alg: RSAAlgorithm;
 
-    n: string;
-    e: string;
-    d: string;
-    p: string;
-    q: string;
-    dp: string;
-    dq: string;
-    qi: string;
+    readonly n: string;
+    readonly e: string;
+    readonly d: string;
+    readonly p: string;
+    readonly q: string;
+    readonly dp: string;
+    readonly dq: string;
+    readonly qi: string;
 }
 
 export interface JWK_RSA_Private_Encrypt extends JWKBase {
-    kty: "RSA";
-    use: "enc";
-    key_ops: ("decrypt" | "unwrapKey")[];
-    alg: RSAAlgorithm;
+    readonly kty: "RSA";
+    readonly use: "enc";
+    readonly key_ops: ("decrypt" | "unwrapKey")[];
+    readonly alg: RSAAlgorithm;
 
-    n: string;
-    e: string;
-    d: string;
-    p: string;
-    q: string;
-    dp: string;
-    dq: string;
-    qi: string;
+    readonly n: string;
+    readonly e: string;
+    readonly d: string;
+    readonly p: string;
+    readonly q: string;
+    readonly dp: string;
+    readonly dq: string;
+    readonly qi: string;
 }
 
 export interface JWK_OCT extends JWKBase {
@@ -161,12 +161,12 @@ export interface JWK_OCT extends JWKBase {
 
 // ! JWT DEFINITIONS
 export interface JWTPayloadOptions {
-    iss: string | undefined;
-    sub: string | undefined;
-    aud: string;
-    iat: Date | undefined;
-    nbf: Date | undefined;
-    jti: string | undefined;
+    readonly iss: string | undefined;
+    readonly sub: string | undefined;
+    readonly aud: string;
+    readonly iat: Date | undefined;
+    readonly nbf: Date | undefined;
+    readonly jti: string | undefined;
 }
 export interface JWTPayloadOptionsDefault extends JWTPayloadOptions {}
 
@@ -174,7 +174,7 @@ export interface JWTJSONForm<
     O extends JWTPayloadOptions,
     P extends {} | undefined,
     H extends {} | undefined,
-    SIG extends boolean,
+    SIG extends boolean
 > {
     header: H extends {} ? H & JWTHeader : JWTHeader;
     payload: P extends {} ? P & JWTPayloadJSONForm<O> : JWTPayloadJSONForm<O>;
@@ -212,12 +212,12 @@ export const TimeUnitsMSMultiplierMap: Record<TimeUnit, number> = {
     seconds: 0.001,
     milliseconds: 1,
     mircoseconds: 1000,
-}
+};
 export interface JWTConstructorOptions<
     O extends JWTPayloadOptions,
     P extends {} | undefined,
     H extends {} | undefined,
-    SIG extends boolean = true,
+    SIG extends boolean = true
 > {
     /**
      * Algorithm used to sign the JWT
@@ -285,4 +285,23 @@ export interface JWTPayloadConstructorOptions<
     readonly jti: O["jti"];
 
     readonly additionalPayload: A;
+}
+
+// ! ISSUER
+export interface IssuerOptions<O extends JWTPayloadOptions, P extends {} | undefined, H extends {} | undefined> {
+    readonly additionalHeaders: H;
+    readonly algorithm: Algorithm;
+    readonly validTimeMs: number;
+    readonly validityDelayMs: number;
+    readonly nameOrUrl: O["iss"];
+    readonly generateJWTID: () => O["jti"];
+    readonly defaultPayload: P;
+}
+
+export interface IssueTokenOptions<O extends JWTPayloadOptions, P extends {} | undefined, H extends {} | undefined> {
+    readonly audience: O["aud"][] | O["aud"] | undefined;
+    readonly validTimeMsOverride?: number;
+    readonly validityDelayMsOverride?: number;
+    readonly subject: O["sub"];
+    readonly additionalPayload: Partial<P>;
 }
