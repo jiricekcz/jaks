@@ -189,7 +189,7 @@ export class JWTToken<
             (await this.verifySignature(key)) &&
             this.isTimeValid(reserve, at) &&
             (audience === undefined ? true : this.isCorrectAudience(audience)) &&
-            ((issuerIsTrusted === undefined ? true : await this.isFromTrustedIssuer(issuerIsTrusted)))
+            (issuerIsTrusted === undefined ? true : await this.isFromTrustedIssuer(issuerIsTrusted))
         );
     }
 

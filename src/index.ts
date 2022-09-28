@@ -4,13 +4,7 @@ import * as issuer from "./standard/issuer";
 import * as interfaces from "./types";
 import * as utils from "./utils";
 
-
-
-async function main(): Promise<void> {
-
-
-}
-
+async function main(): Promise<void> {}
 
 void main();
 export default {

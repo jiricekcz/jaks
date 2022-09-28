@@ -8,7 +8,7 @@ export class JWTTokenIssuer<
     O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
     P extends {} | undefined = undefined,
     H extends {} | undefined = undefined
-> extends JWTTokenParser<O, P, H>{
+> extends JWTTokenParser<O, P, H> {
     protected readonly privateKey: jose.KeyLike | Uint8Array;
     public readonly headers: H;
     public readonly algorithm: Algorithm;
