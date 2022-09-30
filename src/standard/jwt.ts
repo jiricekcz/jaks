@@ -10,6 +10,7 @@ import {
     JWTPayloadJSONForm,
     JWTPayloadOptions,
     JWTPayloadOptionsDefault,
+    Key,
     TimeUnit,
     TimeUnitsMSMultiplierMap,
 } from "../types";
@@ -144,7 +145,7 @@ export class JWTToken<
      * @param key Private key to sign the token with.
      * @returns Signature string
      */
-    protected async getSignature(key: jose.KeyLike | Uint8Array): Promise<string> {
+    protected async getSignature(key: Key): Promise<string> {
         const sign = await new jose.SignJWT(this.payload.toJSON() as unknown as jose.JWTPayload)
             .setProtectedHeader(this.header.toJSON() as unknown as jose.JWTHeaderParameters)
             .sign(key);
@@ -156,7 +157,7 @@ export class JWTToken<
      * @param key Private key to sign the token with.
      * @returns A signed token.
      */
-    public async sign(key: jose.KeyLike | Uint8Array): Promise<JWTToken<O, P, H, true>> {
+    public async sign(key: Key): Promise<JWTToken<O, P, H, true>> {
         const signature = await this.getSignature(key);
         const json: JWTJSONForm<O, P, H, boolean> = this.toJSON();
         json.signature = signature;
@@ -168,7 +169,7 @@ export class JWTToken<
      * @param key Public key to verify the token with.
      * @returns Whether the token has a valid signature.
      */
-    public async verifySignature(key: jose.KeyLike | Uint8Array): Promise<boolean> {
+    public async verifySignature(key: Key): Promise<boolean> {
         try {
             await jose.jwtVerify(this.toString(), key);
         } catch (e) {
@@ -178,7 +179,7 @@ export class JWTToken<
     }
 
     public async verify(
-        key: jose.KeyLike | Uint8Array,
+        key: Key,
 
         reserve: number = 1000,
         at: Date = new Date(),

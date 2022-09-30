@@ -1,6 +1,6 @@
 import jose from "jose";
 
-import { JWTPayloadOptions, JWTPayloadOptionsDefault, Verifier } from "../types";
+import { JWTPayloadOptions, JWTPayloadOptionsDefault, Key, Verifier } from "../types";
 import { JWTToken } from "./jwt";
 import { JWTTokenParser } from "./parser";
 
@@ -10,8 +10,8 @@ export class JWTTokenVerifier<
     H extends {} | undefined = undefined
 > extends JWTTokenParser<O, P, H, true> implements Verifier<JWTToken<O, P, H, true>> {
 
-    protected publicKey: jose.KeyLike | Uint8Array;
-    constructor(publicOrPrivateKey: jose.KeyLike | Uint8Array) {
+    protected publicKey: Key;
+    constructor(publicOrPrivateKey: Key) {
         super(true);
         this.publicKey = publicOrPrivateKey; // All private keys can act like public keys in jose
     }

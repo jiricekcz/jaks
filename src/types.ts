@@ -1,3 +1,7 @@
+import * as jose from "jose";
+
+export type Key = jose.KeyLike | Uint8Array;
+
 // ! JWK DEFINITIONS
 
 export const KEY_TYPES = ["EC", "RSA", "oct"] as const;
