@@ -1,7 +1,6 @@
 import jose from "jose";
-import { Verifier } from "../tokenManipulationInterfaces";
 
-import { JWTPayloadOptions, JWTPayloadOptionsDefault } from "../types";
+import { JWTPayloadOptions, JWTPayloadOptionsDefault, Verifier } from "../types";
 import { JWTToken } from "./jwt";
 import { JWTTokenParser } from "./parser";
 

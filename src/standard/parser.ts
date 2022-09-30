@@ -1,5 +1,4 @@
-import { Parser } from "../tokenManipulationInterfaces";
-import { JWTPayloadOptions, JWTPayloadOptionsDefault } from "../types";
+import { JWTPayloadOptions, JWTPayloadOptionsDefault, Parser } from "../types";
 import { JWTToken } from "./jwt";
 
 export class JWTTokenParser<

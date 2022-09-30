@@ -1,4 +1,7 @@
-export interface PayloadOptions extends jaks.types.JWTPayloadOptions { // You define the types of the default parameters extending the interface should make you follow the standard.
+import * as types from "./types";
+import * as jaks from "./index"
+
+export interface PayloadOptions extends types.JWTPayloadOptions { // You define the types of the default parameters extending the interface should make you follow the standard.
     iss: "server1" | "server2" | "server3" | "master"; // The issuer of the token
     sub: string; // The subject of the token (unique identifier of the user)
     aud: "webclient" | "androidapp" | "iosapp" | "winapp"; // The audience of the token (the reciever of the token)
@@ -16,3 +19,5 @@ export interface AdditionalPayload { // You define the types of the additional p
 }
 
 export type AdditionalHeaders = undefined; // You define the types of the additional headers in the same way as the additional payload. Undefined means there are no extra headers.
+
+

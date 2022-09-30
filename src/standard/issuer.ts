@@ -1,9 +1,8 @@
 import jose from "jose";
 
 import { JWTToken } from "./jwt";
-import { Algorithm, IssuerOptions, IssueTokenOptions, JWTPayloadOptions, JWTPayloadOptionsDefault } from "../types";
+import { Algorithm, Issuer, IssuerOptions, IssueTokenOptions, JWTPayloadOptions, JWTPayloadOptionsDefault } from "../types";
 import { JWTTokenVerifier } from "./verifier";
-import { Issuer } from "../tokenManipulationInterfaces";
 
 export class JWTTokenIssuer<
     O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
