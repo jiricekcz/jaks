@@ -2,7 +2,7 @@ import * as standardJWT from "./standard/jwt";
 import * as standardParser from "./standard/parser";
 import * as standardVerifier from "./standard/verifier";
 import * as standardIssuer from "./standard/issuer";
-
+export * as types from "./types";
 /**
  * Functional classes for a standard JWT Token
  */
@@ -15,8 +15,6 @@ export const standardJWTToken = {
     Issuer: standardIssuer.JWTTokenIssuer,
 };
 
-async function main(): Promise<void> {
-    
-}
+async function main(): Promise<void> {}
 
 void main();
