@@ -48,7 +48,11 @@ export class Token<SIGNED extends boolean> extends jaks.standardJWTToken.Token<
     AdditionalPayload,
     AdditionalHeaders,
     SIGNED
-> {}
+> {
+    get anArray(): string[] { // You can also define getters or other functions to make it more convenient to use.
+        return this.payload.anArray;
+    } 
+}
 
 export class Parser extends jaks.standardJWTToken.Parser<PayloadOptions, AdditionalPayload, AdditionalHeaders> {}
 export class Verifier extends jaks.standardJWTToken.Verifier<PayloadOptions, AdditionalPayload, AdditionalHeaders> {}
@@ -70,10 +74,6 @@ export class Issuer extends jaks.standardJWTToken.Issuer<PayloadOptions, Additio
             validTimeMs: 1000 * 60 * 60 * 24 * 7,
         });
     }
-
-    get anArray(): string[] { // You can also define getters or other functions to make it more convenient to use.
-        return this.defaultAdditionalPayload.anArray;
-    } 
 }
 ```
 
