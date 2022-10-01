@@ -16,7 +16,7 @@ As JAKS is an object oriented library focused on code reusebility and type safet
 
 Standard JWT Token doesn't provide much extra functionallity, but offers simple stringification and parsing with maximum type safety.  
 
-An example of a token declaration file:
+An example of a token declaration file:  
 `tokenDef.ts`
 
 ```typescript
