@@ -1,5 +1,3 @@
-import jose from "jose";
-
 import { JWTPayloadOptions, JWTPayloadOptionsDefault, Key, Verifier } from "../types";
 import { JWTToken } from "./jwt";
 import { JWTTokenParser } from "./parser";
