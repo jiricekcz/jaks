@@ -6,7 +6,8 @@ export class JWTTokenParser<
     P extends {} | undefined = undefined,
     H extends {} | undefined = undefined,
     SIG extends boolean = true
-> implements Parser<JWTToken<O, P, H, SIG>>{
+> implements Parser<JWTToken<O, P, H, SIG>>
+{
     public readonly expectSigned: SIG;
     constructor(expectSigned: SIG) {
         this.expectSigned = expectSigned;

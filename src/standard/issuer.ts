@@ -1,14 +1,23 @@
-import jose from "jose";
-
 import { JWTToken } from "./jwt";
-import { Algorithm, Issuer, IssuerOptions, IssueTokenOptions, JWTPayloadOptions, JWTPayloadOptionsDefault, Key } from "../types";
+import {
+    Algorithm,
+    Issuer,
+    IssuerOptions,
+    IssueTokenOptions,
+    JWTPayloadOptions,
+    JWTPayloadOptionsDefault,
+    Key,
+} from "../types";
 import { JWTTokenVerifier } from "./verifier";
 
 export class JWTTokenIssuer<
-    O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
-    P extends {} | undefined = undefined,
-    H extends {} | undefined = undefined
-> extends JWTTokenVerifier<O, P, H> implements Issuer<JWTToken<O, P, H, true>, IssueTokenOptions<O, P, H>> {
+        O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
+        P extends {} | undefined = undefined,
+        H extends {} | undefined = undefined
+    >
+    extends JWTTokenVerifier<O, P, H>
+    implements Issuer<JWTToken<O, P, H, true>, IssueTokenOptions<O, P, H>>
+{
     protected readonly privateKey: Key;
     public readonly headers: H;
     public readonly algorithm: Algorithm;

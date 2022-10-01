@@ -310,7 +310,6 @@ export interface IssueTokenOptions<O extends JWTPayloadOptions, P extends {} | u
     readonly additionalPayload: Partial<P>;
 }
 
-
 // ! Token manipulation interfaces
 /**
  * A class that implements the Parser interface is capable of parsing tokens from their string from into their object form.

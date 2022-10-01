@@ -3,11 +3,13 @@ import { JWTToken } from "./jwt";
 import { JWTTokenParser } from "./parser";
 
 export class JWTTokenVerifier<
-    O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
-    P extends {} | undefined = undefined,
-    H extends {} | undefined = undefined
-> extends JWTTokenParser<O, P, H, true> implements Verifier<JWTToken<O, P, H, true>> {
-
+        O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
+        P extends {} | undefined = undefined,
+        H extends {} | undefined = undefined
+    >
+    extends JWTTokenParser<O, P, H, true>
+    implements Verifier<JWTToken<O, P, H, true>>
+{
     protected publicKey: Key;
     constructor(publicOrPrivateKey: Key) {
         super(true);
