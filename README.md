@@ -20,7 +20,9 @@ An example of a token declaration file:
 `tokenDef.ts`
 
 ```typescript
-export interface PayloadOptions extends JWTPayloadOptions { // You define the types of the default parameters extending the interface should make you follow the standard.
+import * as jaks from "jaks";
+export interface PayloadOptions extends jaks.types.JWTPayloadOptions {
+    // You define the types of the default parameters extending the interface should make you follow the standard.
     iss: "server1" | "server2" | "server3" | "master"; // The issuer of the token
     sub: string; // The subject of the token (unique identifier of the user)
     aud: "webclient" | "androidapp" | "iosapp" | "winapp"; // The audience of the token (the reciever of the token)
@@ -29,54 +31,73 @@ export interface PayloadOptions extends JWTPayloadOptions { // You define the ty
     jit: undefined; // Not using JWT ID
 }
 
-export interface AdditionalPayload { // You define the types of the additional parameters. Note that these parameters will be added to the payload, so make them compact.
+export interface AdditionalPayload {
+    // You define the types of the additional parameters. Note that these parameters will be added to the payload, so make them compact.
     string: string; // A simple string
     anArray: string[]; // An array of strings
-    record: {   // A record of strings
+    record: {
+        // A record of strings
         key1: string;
-    }
+    };
 }
 
 export type AdditionalHeaders = undefined; // You define the types of the additional headers in the same way as the additional payload. Undefined means there are no extra headers.
 
+export class Token<SIGNED extends boolean> extends jaks.standardJWTToken.Token<
+    PayloadOptions,
+    AdditionalPayload,
+    AdditionalHeaders,
+    SIGNED
+> {}
+
+export class Parser extends jaks.standardJWTToken.Parser<PayloadOptions, AdditionalPayload, AdditionalHeaders> {}
+export class Verifier extends jaks.standardJWTToken.Verifier<PayloadOptions, AdditionalPayload, AdditionalHeaders> {}
+export class Issuer extends jaks.standardJWTToken.Issuer<PayloadOptions, AdditionalPayload, AdditionalHeaders> {
+    constructor(privateKey: jaks.types.Key, issuerName: PayloadOptions["iss"]) { // You can redefine the constructor to make it more convenient to use.
+        super(privateKey, {
+            algorithm: "ES256",
+            additionalHeaders: undefined,
+            defaultPayload: {
+                string: "string",
+                anArray: ["string1", "string2"],
+                record: {
+                    key1: "string",
+                },
+            },
+            generateJWTID: () => undefined,
+            nameOrUrl: issuerName,
+            validityDelayMs: 0,
+            validTimeMs: 1000 * 60 * 60 * 24 * 7,
+        });
+    }
+
+    get anArray(): string[] { // You can also define getters or other functions to make it more convenient to use.
+        return this.defaultAdditionalPayload.anArray;
+    } 
+}
 ```
 
 After that you can issue and verify tokens with the TokenIssuer class:
 
 ```typescript
-import * as jaks from 'jaks';
-import { promises as fs } from 'fs';
-import { PayloadOptions, AdditionalPayload, AdditionalHeaders } from './tokenDef';
-
-const JWK = JSON.parse(await fs.readFile("jwk.json", "utf8"));
+import { Issuer, Verifier } from "./tokenDef.ts"; // You import your classes from the difinition file
+import { jose } from "jaks"; // Jose is a dependency library used by JAKS
+const JWK = JSON.parse(await fs.readFile("jwk.json", "utf8")); // You load the JWK from a file
 const key = await jose.importJWK(JWK);
 
-const tokenIssuer = new jaks.JWTTokenIssuer<PayloadOptions, AdditionalPayload, AdditionalHeaders>(key, {
-    additionalHeaders: undefined, // You can specify the additional headers here
-    algorithm: "ES256", // You can specify the algorithm here
-    defaultPayload: { // Default payload. Can be changed with each issue, but default is required in case overrides are not provided.
-        anArray: ["a", "b", "c"],
-        record: {
-            key1: "value1"
-        },
-        string: "string",
+const issuer = new Issuer(key, "server1"); // You create an issuer
+const token = await issuer.issueToken({
+    // You issue a token
+    additionalPayload: {
+        string: "newString",
     },
-    generateJWTID: () => undefined, // JWT ID generator.
-    nameOrUrl: "master", // Issuer name or URL
-    validityDelayMs: 0, // Delay before the token is valid
-    validTimeMs: 1000 * 60 * 60 * 24 * 7, // Valid time of the token
+    audience: "androidapp",
+    subject: "user2",
 });
 
-const token = await tokenIssuer.issueToken({
-    audience: "webclient",
-    subject: "user1",
-    additionalPayload: { // Any payload overrides can be specified here
-        string: "string2"
-    }
-});
+const tokenString = token.toString(); // You can convert the token to a string
 
-const tokenString = token.toString(); // Get the token as a string
-
-// You can later parse the token and get the token object
-const token2 = tokenIssuer.parseToken(tokenString);
+// Then you can verify the token elsewhere
+const verifier = new Verifier(key); // You create a verifier
+const signatureValid = await verifier.parseThenVerifyToken(tokenString); // You parse and verify the signature of the token
 ```

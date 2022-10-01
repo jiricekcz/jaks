@@ -3,6 +3,7 @@ import * as standardParser from "./standard/parser";
 import * as standardVerifier from "./standard/verifier";
 import * as standardIssuer from "./standard/issuer";
 export * as types from "./types";
+export * as jose from "jose";
 /**
  * Functional classes for a standard JWT Token
  */
