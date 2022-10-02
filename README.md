@@ -20,8 +20,8 @@ An example of a token declaration file:
 `tokenDef.ts`
 
 ```typescript
-import * as jaks from "jaks";
-export interface PayloadOptions extends jaks.types.JWTPayloadOptions {
+import { JWT as jaksJWT } from "jaks";
+export interface PayloadOptions extends jaksJWT.types.JWTPayloadOptions {
     // You define the types of the default parameters extending the interface should make you follow the standard.
     iss: "server1" | "server2" | "server3" | "master"; // The issuer of the token
     sub: string; // The subject of the token (unique identifier of the user)
@@ -43,7 +43,7 @@ export interface AdditionalPayload {
 
 export type AdditionalHeaders = undefined; // You define the types of the additional headers in the same way as the additional payload. Undefined means there are no extra headers.
 
-export class Token<SIGNED extends boolean> extends jaks.standardJWTToken.Token<
+export class Token<SIGNED extends boolean> extends jaksJWT.standardJWTToken.Token<
     PayloadOptions,
     AdditionalPayload,
     AdditionalHeaders,
@@ -54,10 +54,10 @@ export class Token<SIGNED extends boolean> extends jaks.standardJWTToken.Token<
     } 
 }
 
-export class Parser extends jaks.standardJWTToken.Parser<PayloadOptions, AdditionalPayload, AdditionalHeaders> {}
-export class Verifier extends jaks.standardJWTToken.Verifier<PayloadOptions, AdditionalPayload, AdditionalHeaders> {}
-export class Issuer extends jaks.standardJWTToken.Issuer<PayloadOptions, AdditionalPayload, AdditionalHeaders> {
-    constructor(privateKey: jaks.types.Key, issuerName: PayloadOptions["iss"]) { // You can redefine the constructor to make it more convenient to use.
+export class Parser extends jaksJWT.standardJWTToken.Parser<PayloadOptions, AdditionalPayload, AdditionalHeaders> {}
+export class Verifier extends jaksJWT.standardJWTToken.Verifier<PayloadOptions, AdditionalPayload, AdditionalHeaders> {}
+export class Issuer extends jaksJWT.standardJWTToken.Issuer<PayloadOptions, AdditionalPayload, AdditionalHeaders> {
+    constructor(privateKey: jaksJWT.types.Key, issuerName: PayloadOptions["iss"]) { // You can redefine the constructor to make it more convenient to use.
         super(privateKey, {
             algorithm: "ES256",
             additionalHeaders: undefined,
