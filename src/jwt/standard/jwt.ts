@@ -14,7 +14,7 @@ import {
     TimeUnit,
     TimeUnitsMSMultiplierMap,
 } from "../types";
-import { filterObject, getSignableString, isValidAlgorithm, roundDecPlaces } from "../utils";
+import { filterObject, getSignableString, isValidAlgorithm, roundDecPlaces } from "../../utils";
 import base64url from "base64url";
 import * as jose from "jose";
 const ROUND_DEC_PLACES = 2;

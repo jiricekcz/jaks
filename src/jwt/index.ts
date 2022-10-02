@@ -4,7 +4,6 @@ import * as standardVerifier from "./standard/verifier";
 import * as standardIssuer from "./standard/issuer";
 export * as types from "./types";
 
-
 export const standardToken = {
     Token: standardJWT.JWTToken,
     Header: standardJWT.JWTHeader,

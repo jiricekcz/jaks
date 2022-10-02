@@ -1,5 +1,5 @@
-import { JWTHeader, JWTPayload } from "./standard/jwt";
-import { Algorithm, ALGORITHMS } from "./types";
+import { JWTHeader, JWTPayload } from "./jwt/standard/jwt";
+import { Algorithm, ALGORITHMS } from "./jwt/types";
 
 export function isValidAlgorithm(alg: unknown): alg is Algorithm {
     if (typeof alg !== "string") return false;
