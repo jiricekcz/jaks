@@ -8,7 +8,7 @@ import {
     JWTPayloadOptionsDefault,
     Key,
 } from "../types";
-import { JWTTokenVerifier } from "./verifier";  
+import { JWTTokenVerifier } from "./verifier";
 
 export class JWTTokenIssuer<
         O extends JWTPayloadOptions = JWTPayloadOptionsDefault,
