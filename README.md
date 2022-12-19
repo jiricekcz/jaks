@@ -1,6 +1,6 @@
 # JAKS
 
-JAKS is a highly opinionated, object-oriented authentication and authorization cryptographic library for TypeScripy and JavaScript. One of the main goals of JAKS is to provide a complete solution for web applications that can provide the same interfaces for both Node.js and the browser. JAKS follows and extends the [JOSE](https://tools.ietf.org/html/rfc7515) standard where possible. The npm package [jose](https://www.npmjs.com/package/jose) is used to provide the JOSE cryptographic functionality. For maximum performace native crypto interfaces are used when available.
+JAKS is a highly opinionated, object-oriented authentication and authorization cryptographic library for TypeScripy and JavaScript. One of the main goals of JAKS is to provide a complete solution for web applications that can provide the same interfaces for both Node.js and the browser. JAKS follows and extends the [JOSE](https://www.rfc-editor.org/rfc/rfc7519) standard where possible. The npm package [jose](https://www.npmjs.com/package/jose) is used to provide the JOSE cryptographic functionality. For maximum performace native crypto interfaces are used when available.
 
 ## JAKS Json Web Token (JWT)
 
