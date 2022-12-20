@@ -61,4 +61,41 @@ JAKS prioritizes clarity, simplicity and extensibility over raw performance (bot
 
 JAKS tries to prevent the need for breaking changes as much as possible. However they can never be avoided completely and it is better to be prepared for them. That is the reason why JAKS is versioned. Even if breaking changes will be present, they will probably still be minor, but due to the nature of this package, even the smallest breaking changes MUST be marked as a new version. Adding features (even large ones) will not be considered a breaking change, but removing features or changing the behavior of existing features will be considered breaking changes.  
 
-Behaviour when presented with a non-supported algorithm or other is undefined, unless specified differently in the standard. For that reason, you SHOULD always check all parameters of the token you are interested in, before using them. This is necessary in order for the standard to be upgradeable without introducing breaking changes.  
+Behaviour when presented with a non-supported algorithm or other is undefined, unless specified differently in the standard. For that reason, you SHOULD always check all parameters of the token you are interested in, before using them. This is necessary in order for the standard to be upgradeable without introducing breaking changes. 
+
+The JAKS standard works with so called *plugins*. Plugins add additional features to the token.
+
+### Default JWT traits
+
+JWT gives a few default defined traits with restrictions. JAKS gives a few additional restrictions to these traits.
+
+#### Issuer
+
+The `iss` claim describes the issuer of the token. In normal JWT standard, this claim is OPTIONAl, in JAKS it is REQUIRED. This claim mus also be a string, that is not empty and satisfies the StringOrURI requirements (if string includes a colon, it must be a valid URI).
+
+#### Subject
+
+The `sub` claim describes the subject of the token. In normal JWT standard, this claim is OPTIONAL, in JAKS it is REQUIRED. This claim must also be a string, that is not empty and satisfies the StringOrURI requirements. The `sub` claim is in standard applications used to describe the user, so this value SHOULD be unique.
+
+#### Audience
+
+The `aud` claim describes the audience of the token. In normal JWT standard, this claim is OPTIONAL and can be a string or an array of strings. In JAKS, this claim is REQUIRED to be an array of strings, but the array can be empty. This claim must also be a string, that is not empty and satisfies the StringOrURI requirements. Audience is used to describe for what validator this token is intended. This claim is used to prevent tokens from being used by other validators.
+
+#### Expiration time
+
+The `exp` claim describes the expiration time of the token. In normal JWT standard, this claim is OPTIONAL, in JAKS it is REQUIRED. This claim must also be a number, that is not negative and is not greater than 2^53. The expiration time is used to prevent tokens from being used after a certain time. It is a timestamp in epoch seconds.
+
+#### Not before time
+
+The `nbf` claim describes the time before which the token is not valid. In normal JWT standard, this claim is OPTIONAL, in JAKS it remains OPTIONAL. Other requirements from `exp` apply. The not before time is used to prevent tokens from being used before a certain time. It is a timestamp in epoch seconds.
+
+#### Issued at time
+
+The `iat` claim describes the time at which the token was issued. In normal JWT standard, this claim is OPTIONAL, in JAKS it is REQUIRED. Other requirements from `exp` apply. This claim has questionable use, in JAKS it is isuued mainly for future use. It is a timestamp in epoch seconds.
+
+#### JWT ID
+
+The `jti` claim describes the ID of the token. In normal JWT standard, this claim is OPTIONAL, in JAKS it is the same.
+
+### JAKS traits
+
