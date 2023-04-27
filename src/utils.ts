@@ -1,4 +1,4 @@
-import { JWTHeader, JWTPayload } from "./jwt/standard/jwt";
+
 import { Algorithm, ALGORITHMS } from "./jwt/types";
 
 export function isValidAlgorithm(alg: unknown): alg is Algorithm {
@@ -19,9 +19,7 @@ export function filterObject<T extends {}, R extends {} = Partial<T>>(
     return filtered as R;
 }
 
-export function getSignableString(header: JWTHeader<any>, payload: JWTPayload<any, any>): string {
-    return `${header.toString()}.${payload.toString()}`;
-}
+
 export function roundDecPlaces(num: number, places: number): number {
     const multiplier = 10 ** places;
     return Math.round(num * multiplier) / multiplier;
