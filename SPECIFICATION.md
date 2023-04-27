@@ -1,5 +1,7 @@
 # JAKS
 
+`version 0.0.0`
+
 ## What is JAKS?
 
 JAKS is an exetention of the JWT standard. This means every JAKS token is a valid JWT token, JAKS only adds additional requirements for the token. JAKS is mainly designd as a standard with a reference implementation in TypeScript.
@@ -65,6 +67,14 @@ Behaviour when presented with a non-supported algorithm or other is undefined, u
 
 The JAKS standard works with so called *plugins*. Plugins add additional features to the token.
 
+JAKS adds a single record to the header of the token, called `jaks`. This record contains the identifier of the JAKS library used to create this token. This record is REQUIRED.
+
+The format of the JAKS library identifier is as folows:  
+parts in `()` are optional.
+```
+[ASSIGNED_LIBRARY_CODE](@[LIBRARY_VERSION])-[JAKS_SPECIFICATION_VERSION]
+```
+
 ### Default JWT traits
 
 JWT gives a few default defined traits with restrictions. JAKS gives a few additional restrictions to these traits.
@@ -79,7 +89,7 @@ The `sub` claim describes the subject of the token. In normal JWT standard, this
 
 #### Audience
 
-The `aud` claim describes the audience of the token. In normal JWT standard, this claim is OPTIONAL and can be a string or an array of strings. In JAKS, this claim is REQUIRED to be an array of strings, but the array can be empty. This claim must also be a string, that is not empty and satisfies the StringOrURI requirements. Audience is used to describe for what validator this token is intended. This claim is used to prevent tokens from being used by other validators.
+The `aud` claim describes the audience of the token. In normal JWT standard, this claim is OPTIONAL and can be a string or an array of strings. In JAKS, this claim is REQUIRED to be an array of strings, but the array can be empty. This claims MUST also be a string, that is not empty and satisfies the StringOrURI requirements. Audience is used to describe for what validator this token is intended. This claim is used to prevent tokens from being used by other validators.
 
 #### Expiration time
 
@@ -91,11 +101,25 @@ The `nbf` claim describes the time before which the token is not valid. In norma
 
 #### Issued at time
 
-The `iat` claim describes the time at which the token was issued. In normal JWT standard, this claim is OPTIONAL, in JAKS it is REQUIRED. Other requirements from `exp` apply. This claim has questionable use, in JAKS it is isuued mainly for future use. It is a timestamp in epoch seconds.
+The `iat` claim describes the time at which the token was issued. In normal JWT standard, this claim is OPTIONAL, in JAKS it is REQUIRED. Other requirements from `iat` apply. This claim has questionable use, in JAKS it is isuued mainly for future use. It is a timestamp in epoch seconds.
 
 #### JWT ID
 
 The `jti` claim describes the ID of the token. In normal JWT standard, this claim is OPTIONAL, in JAKS it is the same.
 
 ### JAKS traits
+
+#### Plugins
+
+If plugins are enabled for the token, the token will have a `plg` trait. The `plg` trait is a JSON Object containing plugin identifiers as keys and plugin data as values. Plugin data can be of the following types:
+* `null` - The plugin is enabled, but no data is provided.
+* `string` - The plugin is enabled and the data is a string.
+* `number` - The plugin is enabled and the data is a number.
+* `boolean` - The plugin is enabled and the data is a boolean.
+* `JSON Object` - The plugin is enabled and the data is a JSON Object.
+* `JSON Array` - The plugin is enabled and the data is a JSON Array.
+
+The value should not be `undefined` as they might get deleted when converting to JSON a cause uncertainty with signatures.
+
+
 
