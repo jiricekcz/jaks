@@ -140,3 +140,326 @@ export const ALGORITHMS = [...EC_ALGORITHMS, ...RSA_ALGORITHMS, ...HMAC_ALGORITH
  * @see https://www.rfc-editor.org/rfc/rfc7518
  */
 export type Algorithm = typeof ALGORITHMS[number];
+
+// ! Key types
+
+/**
+ * Base type for JWK
+ * All more specific JWK types extend this
+ */
+interface JWKBase {
+    kty: KeyType;
+    use?: KeyUse;
+    key_ops: KeyOperation[];
+    alg?: Algorithm;
+    kid?: string;
+    x5u?: string;
+    x5c?: string[];
+    x5t?: string;
+    "x5t#S256"?: string;
+}
+
+
+/**
+ * Very striclty typed JWK for Elliptic Curve keys
+ */
+export namespace EC {
+
+    // ! Key types - Elliptic Curve - Signature
+
+    /**
+     * JWK Public key using Elliptic Curve cryptography with a 256 bit key
+     */
+    export interface JWK_EC_Public_Signature_256 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ["verify"];
+        alg: "ES256";
+        crv: "P-256";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+
+    }
+    /**
+     * JWK Public key using Elliptic Curve cryptography with a 384 bit key for signatures
+     */
+    export interface JWK_EC_Public_Signature_384 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ["verify"];
+        alg: "ES384";
+        crv: "P-384";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+    }
+    /**
+     * JWK Public key using Elliptic Curve cryptography with a 512 bit key for signatures
+     */
+    export interface JWK_EC_Public_Signature_512 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ["verify"];
+        alg: "ES512";
+        crv: "P-521";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+    }
+
+    /**
+     * Union of all public JWKs using Elliptic Curve cryptography for signatures
+     */
+    export type JWK_EC_Public_Signature = JWK_EC_Public_Signature_256 | JWK_EC_Public_Signature_384 | JWK_EC_Public_Signature_512;
+
+
+    /**
+     * JWK Private key using Elliptic Curve cryptography with a 256 bit key used for signatures
+     */
+    export interface JWK_EC_Private_Signature_256 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ("sign" | "verify")[];
+        alg: "ES256";
+        crv: "P-256";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+        /**
+         * Private key
+         */
+        d: string;
+    }
+    /**
+     * JWK Private key using Elliptic Curve cryptography with a 384 bit key used for signatures
+     */
+    export interface JWK_EC_Private_Signature_384 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ("sign" | "verify")[];
+        alg: "ES384";
+        crv: "P-384";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+        /**
+         * Private key
+         */
+        d: string;
+    }
+    /**
+     * JWK Private key using Elliptic Curve cryptography with a 512 bit key used for signatures 
+     */
+    export interface JWK_EC_Private_Signature_512 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ("sign" | "verify")[];
+        alg: "ES512";
+        crv: "P-521";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+        /**
+         * Private key
+         */
+        d: string;
+    }
+
+    /**
+     * Union of all private JWKs using Elliptic Curve cryptography for signatures
+     */
+    export type JWK_EC_Private_Signature = JWK_EC_Private_Signature_256 | JWK_EC_Private_Signature_384 | JWK_EC_Private_Signature_512;
+
+     
+    // ! Key types - Elliptic Curve - Encryption
+
+    /**
+     * JWK Public key using Elliptic Curve cryptography with a 256 bit key
+     */
+    export interface JWK_EC_Public_Encryption_256 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ("encrypt")[];
+        alg: "ES256";
+        crv: "P-256";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+
+    }
+    /**
+     * JWK Public key using Elliptic Curve cryptography with a 384 bit key for encryption
+     */
+    export interface JWK_EC_Public_Encryption_384 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ("encrypt")[];
+        alg: "ES384";
+        crv: "P-384";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+    }
+    /**
+     * JWK Public key using Elliptic Curve cryptography with a 512 bit key for encryption
+     */
+    export interface JWK_EC_Public_Encryption_512 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ("encrypt")[];
+        alg: "ES512";
+        crv: "P-521";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+    }
+
+    /**
+     * Union of all public JWKs using Elliptic Curve cryptography for encryption
+     */
+    export type JWK_EC_Public_Encryption = JWK_EC_Public_Encryption_256 | JWK_EC_Public_Encryption_384 | JWK_EC_Public_Encryption_512;
+
+
+    /**
+     * JWK Private key using Elliptic Curve cryptography with a 256 bit key used for encryption
+     */
+    export interface JWK_EC_Private_Encryption_256 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ("decrypt" | "unwrapKey")[];
+        alg: "ES256";
+        crv: "P-256";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+        /**
+         * Private key
+         */
+        d: string;
+    }
+    /**
+     * JWK Private key using Elliptic Curve cryptography with a 384 bit key used for encryption
+     */
+    export interface JWK_EC_Private_Encryption_384 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ("decrypt" | "unwrapKey")[];
+        alg: "ES384";
+        crv: "P-384";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+        /**
+         * Private key
+         */
+        d: string;
+    }
+    /**
+     * JWK Private key using Elliptic Curve cryptography with a 512 bit key used for encryption 
+     */
+    export interface JWK_EC_Private_Encryption_512 extends JWKBase {
+        kty: "EC";
+        use: "sig";
+        key_ops: ("decrypt" | "unwrapKey")[];
+        alg: "ES512";
+        crv: "P-521";
+        /**
+         * X coordinate for the curve
+         */
+        x: string;
+        /**
+         * Y coordinate for the curve
+         */
+        y: string;
+        /**
+         * Private key
+         */
+        d: string;
+    }
+
+    /**
+     * Union of all private JWKs using Elliptic Curve cryptography for encryption
+     */
+    export type JWK_EC_Private_Encryption = JWK_EC_Private_Encryption_256 | JWK_EC_Private_Encryption_384 | JWK_EC_Private_Encryption_512;
+
+    /**
+     * Union of Public JWKs using Elliptic Curve cryptography
+     */
+    export type JWK_EC_Public = JWK_EC_Public_Signature | JWK_EC_Public_Encryption;
+
+    /**
+     * Union of Private JWKs using Elliptic Curve cryptography
+     */
+    export type JWK_EC_Private = JWK_EC_Private_Signature | JWK_EC_Private_Encryption;
+
+    /**
+     * Union of all JWKs using Elliptic Curve cryptography for signatures
+     */
+    export type JWK_EC_Signature = JWK_EC_Public_Signature | JWK_EC_Private_Signature;
+
+    /**
+     * Union of all JWKs using Elliptic Curve cryptography for encryption
+     */
+    export type JWK_EC_Encryption = JWK_EC_Public_Encryption | JWK_EC_Private_Encryption;
+
+    /**
+     * Union of all JWKs using Elliptic Curve cryptography
+     */
+    export type JWK_EC = JWK_EC_Public | JWK_EC_Private;
+}
