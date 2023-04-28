@@ -1,5 +1,5 @@
 
-import { Algorithm, ALGORITHMS } from "./jwt/types";
+import { Algorithm, ALGORITHMS } from "./jwt/types-old";
 
 export function isValidAlgorithm(alg: unknown): alg is Algorithm {
     if (typeof alg !== "string") return false;

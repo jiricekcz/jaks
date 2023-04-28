@@ -13,7 +13,7 @@ import {
     Key,
     TimeUnit,
     TimeUnitsMSMultiplierMap,
-} from "../types";
+} from "../types-old";
 import { filterObject, getSignableString, isValidAlgorithm, roundDecPlaces } from "../../utils";
 import base64url from "base64url";
 import * as jose from "jose";

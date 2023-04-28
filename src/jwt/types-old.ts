@@ -217,11 +217,13 @@ export const TimeUnitsMSMultiplierMap: Record<TimeUnit, number> = {
     milliseconds: 1,
     mircoseconds: 1000,
 };
+
+// ! CONSTRUCTOR OPTIONS
 export interface JWTConstructorOptions<
-    O extends JWTPayloadOptions,
-    P extends {} | undefined,
-    H extends {} | undefined,
-    SIG extends boolean = true
+    StandardPayloadOptions extends JWTPayloadOptions,
+    AdditionalPayload extends {} | undefined,
+    AdditionalHeaders extends {} | undefined,
+    Signed extends boolean = true
 > {
     /**
      * Algorithm used to sign the JWT
@@ -232,17 +234,17 @@ export interface JWTConstructorOptions<
      * The issuer of the JWT
      * @see https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.1
      */
-    readonly issuer: O["iss"];
+    readonly issuer: StandardPayloadOptions["iss"];
     /**
      * The subject of the JWT
      * @see https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.2
      */
-    readonly subject: O["sub"];
+    readonly subject: StandardPayloadOptions["sub"];
     /**
      * The audience of the JWT
      * @see https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.3
      */
-    readonly audience: O["aud"][];
+    readonly audience: StandardPayloadOptions["aud"][];
     /**
      * The time at which the JWT expires
      * @see https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.4
@@ -252,22 +254,32 @@ export interface JWTConstructorOptions<
      * The time at which the JWT becomes valid
      * @see https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.5
      */
-    readonly notBefore: O["nbf"];
+    readonly notBefore: StandardPayloadOptions["nbf"];
     /**
      * The time at which the JWT was issued
      * @see https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.6
      */
-    readonly issuedAt: O["iat"];
+    readonly issuedAt: StandardPayloadOptions["iat"];
     /**
      * The JWT ID
      * @see https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.7
      */
-    readonly jwtID: O["jti"];
+    readonly jwtID: StandardPayloadOptions["jti"];
 
-    readonly signature: SIG extends true ? string : undefined;
+    /**
+     * The signature of the JWT encoded as a base64url string
+     */
+    readonly signature: Signed extends true ? string : undefined;
 
-    readonly additionalHeaders: H;
-    readonly additionalPayload: P;
+    /**
+     * Additional headers to be added to the JWT
+     */
+    readonly additionalHeaders: AdditionalHeaders;
+
+    /**
+     * Additional payload to be added to the JWT
+     */
+    readonly additionalPayload: AdditionalPayload;
 }
 
 export interface JWTHeaderConstructorOptions<A extends {} | undefined> {
@@ -277,18 +289,18 @@ export interface JWTHeaderConstructorOptions<A extends {} | undefined> {
 }
 
 export interface JWTPayloadConstructorOptions<
-    A extends {} | undefined,
-    O extends JWTPayloadOptions = JWTPayloadOptionsDefault
+    AdditionalPayload extends Record<string, any> | undefined,
+    StandardPayloadOptions extends JWTPayloadOptions = JWTPayloadOptionsDefault
 > {
-    readonly iss: O["iss"];
-    readonly sub: O["sub"];
-    readonly aud: O["aud"][];
+    readonly iss: StandardPayloadOptions["iss"];
+    readonly sub: StandardPayloadOptions["sub"];
+    readonly aud: StandardPayloadOptions["aud"][];
     readonly exp: Date;
-    readonly iat: O["iat"];
-    readonly nbf: O["nbf"];
-    readonly jti: O["jti"];
+    readonly iat: StandardPayloadOptions["iat"];
+    readonly nbf: StandardPayloadOptions["nbf"];
+    readonly jti: StandardPayloadOptions["jti"];
 
-    readonly additionalPayload: A;
+    readonly additionalPayload: AdditionalPayload;
 }
 
 // ! ISSUER

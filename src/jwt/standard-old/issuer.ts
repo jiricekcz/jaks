@@ -7,7 +7,7 @@ import {
     JWTPayloadOptions,
     JWTPayloadOptionsDefault,
     Key,
-} from "../types";
+} from "../types-old";
 import { JWTTokenVerifier } from "./verifier";
 
 export class JWTTokenIssuer<
