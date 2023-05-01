@@ -340,7 +340,7 @@ export namespace EC {
      */
     export type JWK_EC_Private_Signature = JWK_EC_Private_Signature_256 | JWK_EC_Private_Signature_384 | JWK_EC_Private_Signature_512;
 
-     
+
     // ! Key types - Elliptic Curve - Encryption
 
     /**
@@ -546,7 +546,10 @@ export namespace EC {
  * Very strictly typed JWK for RSA
  */
 export namespace RSA {
-    
+
+    /**
+     * JWK Public key using RSA cryptography for signatures
+     */
     export interface JWK_RSA_Public_Signature extends JWKBase {
         kty: "RSA";
         use: "sig";
@@ -555,12 +558,166 @@ export namespace RSA {
 
         /**
          * Modulus
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.1
          */
         n: string;
 
         /**
          * Exponent
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.2
          */
         e: string;
     }
+
+    /**
+     * JWK Private key using RSA cryptography for signatures
+     */
+    export interface JWK_RSA_Private_Signature extends JWKBase {
+        kty: "RSA";
+        use: "sig";
+        key_ops: ("sign" | "verify")[];
+        alg: RSAAlgorithm;
+
+        /**
+         * Modulus
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.1
+         */
+        n: string;
+        /**
+         * Exponent
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.2
+         */
+        e: string;
+
+        /**
+         * Private exponent
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.1
+         */
+        d: string;
+        /**
+         * First prime factor
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.2
+         */
+        p: string;
+        /**
+         * Second prime factor
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.3
+         */
+        q: string;
+        /**
+         * First factor Chinese Remainder Theorem exponent
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.4
+         */
+        dp: string;
+        /**
+         * Second factor Chinese Remainder Theorem exponent
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.5
+         */
+        dq: string;
+        /**
+         * First Chinese Remainder Theorem coefficient
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.6
+         */
+        qi: string;
+    }
+
+     /**
+     * JWK Public key using RSA cryptography for encryption
+     */
+    export interface JWK_RSA_Public_Encryption extends JWKBase {
+        kty: "RSA";
+        use: "enc";
+        key_ops: ["encrypt"];
+        alg: RSAAlgorithm;
+
+        /**
+         * Modulus
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.1
+         */
+        n: string;
+
+        /**
+         * Exponent
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.2
+         */
+        e: string;
+    }
+
+    /**
+     * JWK Private key using RSA cryptography for encryption
+     */
+    export interface JWK_RSA_Private_Encryption extends JWKBase {
+        kty: "RSA";
+        use: "enc";
+        key_ops: ("encrypt" | "decrypt")[];
+        alg: RSAAlgorithm;
+
+        /**
+         * Modulus
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.1
+         */
+        n: string;
+        /**
+         * Exponent
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.2
+         */
+        e: string;
+
+        /**
+         * Private exponent
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.2.1
+         */
+        d: string;
+        /**
+         * First prime factor
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.2
+         */
+        p: string;
+        /**
+         * Second prime factor
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.3
+         */
+        q: string;
+        /**
+         * First factor Chinese Remainder Theorem exponent
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.4
+         */
+        dp: string;
+        /**
+         * Second factor Chinese Remainder Theorem exponent
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.5
+         */
+        dq: string;
+        /**
+         * First Chinese Remainder Theorem coefficient
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.3.1.6
+         */
+        qi: string;
+    }
+
+    /**
+     * Union of all Public JWKs using RSA cryptography
+     */
+    export type JWK_RSA_Public = JWK_RSA_Public_Signature | JWK_RSA_Public_Encryption;
+
+    /**
+     * Union of all Private JWKs using RSA cryptography
+     */
+    export type JWK_RSA_Private = JWK_RSA_Private_Signature | JWK_RSA_Private_Encryption;
+
+    /**
+     * Union of all JWKs using RSA cryptography for signatures
+     */
+    export type JWK_RSA_Signature = JWK_RSA_Public_Signature | JWK_RSA_Private_Signature;
+
+    /**
+     * Union of all JWKs using RSA cryptography for encryption
+     */
+    export type JWK_RSA_Encryption = JWK_RSA_Public_Encryption | JWK_RSA_Private_Encryption;    
+
+    /**
+     * Union of all JWKs using RSA cryptography
+     */
+    export type JWK_RSA = JWK_RSA_Public | JWK_RSA_Private;
+    
 }
