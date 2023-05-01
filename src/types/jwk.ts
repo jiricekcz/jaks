@@ -621,9 +621,9 @@ export namespace RSA {
         qi: string;
     }
 
-     /**
-     * JWK Public key using RSA cryptography for encryption
-     */
+    /**
+    * JWK Public key using RSA cryptography for encryption
+    */
     export interface JWK_RSA_Public_Encryption extends JWKBase {
         kty: "RSA";
         use: "enc";
@@ -713,13 +713,13 @@ export namespace RSA {
     /**
      * Union of all JWKs using RSA cryptography for encryption
      */
-    export type JWK_RSA_Encryption = JWK_RSA_Public_Encryption | JWK_RSA_Private_Encryption;    
+    export type JWK_RSA_Encryption = JWK_RSA_Public_Encryption | JWK_RSA_Private_Encryption;
 
     /**
      * Union of all JWKs using RSA cryptography
      */
     export type JWK_RSA = JWK_RSA_Public | JWK_RSA_Private;
-    
+
 }
 
 /**
@@ -730,7 +730,7 @@ export namespace OCT {
     /**
      * JWK for OCT keys
      */
-    export interface JWK_OCT extends JWKBase{
+    export interface JWK_OCT extends JWKBase {
         kty: "oct";
         /**
          * Key value
