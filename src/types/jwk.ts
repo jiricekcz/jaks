@@ -175,13 +175,19 @@ export namespace EC {
         use: "sig";
         key_ops: ["verify"];
         alg: "ES256";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-256";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
 
@@ -194,13 +200,19 @@ export namespace EC {
         use: "sig";
         key_ops: ["verify"];
         alg: "ES384";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-384";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
     }
@@ -212,13 +224,19 @@ export namespace EC {
         use: "sig";
         key_ops: ["verify"];
         alg: "ES512";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-521";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
     }
@@ -237,17 +255,24 @@ export namespace EC {
         use: "sig";
         key_ops: ("sign" | "verify")[];
         alg: "ES256";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-256";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
         /**
          * Private key
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.2.1
          */
         d: string;
     }
@@ -259,17 +284,24 @@ export namespace EC {
         use: "sig";
         key_ops: ("sign" | "verify")[];
         alg: "ES384";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-384";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
         /**
          * Private key
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.2.1
          */
         d: string;
     }
@@ -281,17 +313,24 @@ export namespace EC {
         use: "sig";
         key_ops: ("sign" | "verify")[];
         alg: "ES512";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-521";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
         /**
          * Private key
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.2.1
          */
         d: string;
     }
@@ -310,15 +349,21 @@ export namespace EC {
     export interface JWK_EC_Public_Encryption_256 extends JWKBase {
         kty: "EC";
         use: "sig";
-        key_ops: ("encrypt")[];
+        key_ops: ["encrypt"];
         alg: "ES256";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-256";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
 
@@ -329,15 +374,21 @@ export namespace EC {
     export interface JWK_EC_Public_Encryption_384 extends JWKBase {
         kty: "EC";
         use: "sig";
-        key_ops: ("encrypt")[];
+        key_ops: ["encrypt"];
         alg: "ES384";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-384";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
     }
@@ -349,13 +400,19 @@ export namespace EC {
         use: "sig";
         key_ops: ("encrypt")[];
         alg: "ES512";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-521";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
     }
@@ -374,17 +431,24 @@ export namespace EC {
         use: "sig";
         key_ops: ("decrypt" | "unwrapKey")[];
         alg: "ES256";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-256";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
         /**
          * Private key
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.2.1
          */
         d: string;
     }
@@ -396,17 +460,24 @@ export namespace EC {
         use: "sig";
         key_ops: ("decrypt" | "unwrapKey")[];
         alg: "ES384";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-384";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
         /**
          * Private key
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.2.1
          */
         d: string;
     }
@@ -418,17 +489,24 @@ export namespace EC {
         use: "sig";
         key_ops: ("decrypt" | "unwrapKey")[];
         alg: "ES512";
+        /**
+         * Type of the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.1
+         */
         crv: "P-521";
         /**
          * X coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.2
          */
         x: string;
         /**
          * Y coordinate for the curve
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.1.3
          */
         y: string;
         /**
          * Private key
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.2.2.1
          */
         d: string;
     }
@@ -469,4 +547,20 @@ export namespace EC {
  */
 export namespace RSA {
     
+    export interface JWK_RSA_Public_Signature extends JWKBase {
+        kty: "RSA";
+        use: "sig";
+        key_ops: ["verify"];
+        alg: RSAAlgorithm;
+
+        /**
+         * Modulus
+         */
+        n: string;
+
+        /**
+         * Exponent
+         */
+        e: string;
+    }
 }
