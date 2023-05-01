@@ -168,7 +168,7 @@ export namespace EC {
     // ! Key types - Elliptic Curve - Signature
 
     /**
-     * JWK Public key using Elliptic Curve cryptography with a 256 bit key
+     * JWK Public key using Elliptic Curve cryptography 256 bit
      */
     export interface JWK_EC_Public_Signature_256 extends JWKBase {
         kty: "EC";
@@ -187,7 +187,7 @@ export namespace EC {
 
     }
     /**
-     * JWK Public key using Elliptic Curve cryptography with a 384 bit key for signatures
+     * JWK Public key using Elliptic Curve cryptography 384 bit
      */
     export interface JWK_EC_Public_Signature_384 extends JWKBase {
         kty: "EC";
@@ -205,7 +205,7 @@ export namespace EC {
         y: string;
     }
     /**
-     * JWK Public key using Elliptic Curve cryptography with a 512 bit key for signatures
+     * JWK Public key using Elliptic Curve cryptography 512 bit
      */
     export interface JWK_EC_Public_Signature_512 extends JWKBase {
         kty: "EC";
@@ -230,7 +230,7 @@ export namespace EC {
 
 
     /**
-     * JWK Private key using Elliptic Curve cryptography with a 256 bit key used for signatures
+     * JWK Private key using Elliptic Curve cryptography 256
      */
     export interface JWK_EC_Private_Signature_256 extends JWKBase {
         kty: "EC";
@@ -252,7 +252,7 @@ export namespace EC {
         d: string;
     }
     /**
-     * JWK Private key using Elliptic Curve cryptography with a 384 bit key used for signatures
+     * JWK Private key using Elliptic Curve cryptography 384 bit
      */
     export interface JWK_EC_Private_Signature_384 extends JWKBase {
         kty: "EC";
@@ -274,7 +274,7 @@ export namespace EC {
         d: string;
     }
     /**
-     * JWK Private key using Elliptic Curve cryptography with a 512 bit key used for signatures 
+     * JWK Private key using Elliptic Curve cryptography 512 bit
      */
     export interface JWK_EC_Private_Signature_512 extends JWKBase {
         kty: "EC";
@@ -305,7 +305,7 @@ export namespace EC {
     // ! Key types - Elliptic Curve - Encryption
 
     /**
-     * JWK Public key using Elliptic Curve cryptography with a 256 bit key
+     * JWK Public key using Elliptic Curve cryptography 256 bit
      */
     export interface JWK_EC_Public_Encryption_256 extends JWKBase {
         kty: "EC";
@@ -324,7 +324,7 @@ export namespace EC {
 
     }
     /**
-     * JWK Public key using Elliptic Curve cryptography with a 384 bit key for encryption
+     * JWK Public key using Elliptic Curve cryptography 384 bit
      */
     export interface JWK_EC_Public_Encryption_384 extends JWKBase {
         kty: "EC";
@@ -342,7 +342,7 @@ export namespace EC {
         y: string;
     }
     /**
-     * JWK Public key using Elliptic Curve cryptography with a 512 bit key for encryption
+     * JWK Public key using Elliptic Curve cryptography 512 bit
      */
     export interface JWK_EC_Public_Encryption_512 extends JWKBase {
         kty: "EC";
@@ -367,7 +367,7 @@ export namespace EC {
 
 
     /**
-     * JWK Private key using Elliptic Curve cryptography with a 256 bit key used for encryption
+     * JWK Private key using Elliptic Curve cryptography 256 bit
      */
     export interface JWK_EC_Private_Encryption_256 extends JWKBase {
         kty: "EC";
@@ -389,7 +389,7 @@ export namespace EC {
         d: string;
     }
     /**
-     * JWK Private key using Elliptic Curve cryptography with a 384 bit key used for encryption
+     * JWK Private key using Elliptic Curve cryptography 384 bit
      */
     export interface JWK_EC_Private_Encryption_384 extends JWKBase {
         kty: "EC";
@@ -411,7 +411,7 @@ export namespace EC {
         d: string;
     }
     /**
-     * JWK Private key using Elliptic Curve cryptography with a 512 bit key used for encryption 
+     * JWK Private key using Elliptic Curve cryptography 512 bit
      */
     export interface JWK_EC_Private_Encryption_512 extends JWKBase {
         kty: "EC";
@@ -462,4 +462,11 @@ export namespace EC {
      * Union of all JWKs using Elliptic Curve cryptography
      */
     export type JWK_EC = JWK_EC_Public | JWK_EC_Private;
+}
+
+/**
+ * Very strictly typed JWK for RSA
+ */
+export namespace RSA {
+    
 }
