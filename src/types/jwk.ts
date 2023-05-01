@@ -721,3 +721,21 @@ export namespace RSA {
     export type JWK_RSA = JWK_RSA_Public | JWK_RSA_Private;
     
 }
+
+/**
+ * JWKs for OCT keys
+ */
+export namespace OCT {
+
+    /**
+     * JWK for OCT keys
+     */
+    export interface JWK_OCT extends JWKBase{
+        kty: "oct";
+        /**
+         * Key value
+         * @see https://www.rfc-editor.org/rfc/rfc7518#section-6.4.1
+         */
+        k: string;
+    }
+}
