@@ -398,7 +398,7 @@ export namespace EC {
     export interface JWK_EC_Public_Encryption_512 extends JWKBase {
         kty: "EC";
         use: "sig";
-        key_ops: ("encrypt")[];
+        key_ops: ["encrypt"];
         alg: "ES512";
         /**
          * Type of the curve
