@@ -25,3 +25,16 @@ export type TimeUnit = keyof typeof TIME_UNITS_TO_MS_MULTIPLIER;
  */
 export const TIME_UNITS = Object.keys(TIME_UNITS_TO_MS_MULTIPLIER) as ["seconds", "milliseconds", "microseconds", "nanoseconds"] satisfies TimeUnit[];
 
+
+// ! STRING TYPES
+
+/**
+ * Base64 string.
+ */
+export type Base64Url = string;
+
+/**
+ * String or URI.  
+ * If string contains a colon, it is considered a URI, otherwise it is considered a string.
+ */
+export type StringOrURI = string;
