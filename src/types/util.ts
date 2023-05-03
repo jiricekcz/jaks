@@ -29,7 +29,7 @@ export const TIME_UNITS = Object.keys(TIME_UNITS_TO_MS_MULTIPLIER) as ["seconds"
 // ! STRING TYPES
 
 /**
- * Base64 string.
+ * Base64Url string.
  */
 export type Base64Url = string;
 
@@ -38,3 +38,8 @@ export type Base64Url = string;
  * If string contains a colon, it is considered a URI, otherwise it is considered a string.
  */
 export type StringOrURI = string;
+
+/**
+ * String, that can represent a JAKS token when stringified.
+ */
+export type TokenString = `${Base64Url}.${Base64Url}.${Base64Url}`;
