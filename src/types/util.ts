@@ -43,3 +43,10 @@ export type StringOrURI = string;
  * String, that can represent a JAKS token when stringified.
  */
 export type TokenString = `${Base64Url}.${Base64Url}.${Base64Url}`;
+
+/**
+ * Type that determines the type of a property based on boolean type, that indicates if the property is present.
+ */
+export type PropFromHas<Has extends boolean, Type> = Has extends true ? Type : (
+    Has extends false ? undefined : Type | undefined
+)

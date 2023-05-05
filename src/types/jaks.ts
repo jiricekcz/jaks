@@ -1,14 +1,13 @@
-import { LIBRARY_CODE } from "../lib";
 
 /**
  * A version string with the library code and version.
  */
-export type VersionStringWithLibraryVersion = `${typeof LIBRARY_CODE}@${string}-${string}`;
+export type VersionStringWithLibraryVersion = `${string}@${string}-${string}`;
 
 /**
  * A version string without the library code and version.
  */
-export type VersionStringWithoutLibraryVersion = `${typeof LIBRARY_CODE}-${string}`;
+export type VersionStringWithoutLibraryVersion = `${string}-${string}`;
 
 /**
  * A version string.
