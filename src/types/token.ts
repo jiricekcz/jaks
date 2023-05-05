@@ -1,7 +1,7 @@
 // Types for the token itself
 
 import { TokenConfiguration } from "./tokenConfig";
-import { TokenHeaderJSON, TokenJSON, TokenPayloadJSON, TokenSignatureJSON } from "./tokenJSON";
+import { TokenHeaderJSON, TokenJSON, TokenPayloadJSON, TokenPluginsJSON, TokenSignatureJSON } from "./tokenJSON";
 import { Base64Url, TokenString } from "./util";
 
 /**
@@ -66,6 +66,11 @@ export interface TokenPayload<Configuration extends TokenConfiguration> {
     readonly token: Token<Configuration>;
 
     /**
+     * The plugins that are attached to this payload.
+     */
+    readonly plugins: TokenPluginManager<Configuration>;
+
+    /**
      * Converts the payload to a JSON representation.
      */
     toJSON(): TokenPayloadJSON<Configuration>;
@@ -92,4 +97,16 @@ export interface TokenSignature<Configuration extends TokenConfiguration> {
      * Converts the signature to a string representation.
      */
     toString(): Base64Url;
+}
+
+export interface TokenPluginManager<Configuration extends TokenConfiguration> {
+    /**
+     * The token that this plugin manager belongs to.
+     */
+    readonly token: Token<Configuration>;
+
+    /**
+     * Converts the plugin manager to a JSON representation.
+     */
+    toJSON(): TokenPluginsJSON<Configuration>;
 }
