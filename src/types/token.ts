@@ -4,7 +4,7 @@ import { VersionString } from "./jaks";
 import { Algorithm } from "./jwk";
 import { TokenConfiguration } from "./tokenConfig";
 import { TokenHeaderJSON, TokenJSON, TokenPayloadJSON, TokenPluginsJSON, TokenSignatureJSON } from "./tokenJSON";
-import { Base64Url, TokenString } from "./util";
+import { Base64Url, PropFromHas, TokenString } from "./util";
 
 /**
  * A token is class that represents a signed JAKS token.
@@ -92,6 +92,40 @@ export interface TokenPayload<Configuration extends TokenConfiguration> {
      */
     toString(): Base64Url;
 
+    /**
+     * The subject of the token.
+     */
+    readonly subject: Configuration["payload"]["sub"];
+
+    /**
+     * The issuer of the token.
+     */
+    readonly issuer: Configuration["payload"]["iss"];
+
+    /**
+     * The audience of the token.
+     */
+    readonly audience: Configuration["payload"]["aud"];
+
+    /**
+     * The expiration time of the token.
+     */
+    readonly expirationTime: Date;
+    
+    /**
+     * The not before time of the token.
+     */
+    readonly notBefore: PropFromHas<Configuration["payload"]["hasNBF"], Date>;
+
+    /**
+     * The issued at time of the token.
+     */
+    readonly issuedAt: PropFromHas<Configuration["payload"]["hasIAT"], Date>;
+
+    /**
+     * The JWT ID of the token.
+     */
+    readonly id: Configuration["payload"]["jti"];
 }
 
 export interface TokenSignature<Configuration extends TokenConfiguration> {

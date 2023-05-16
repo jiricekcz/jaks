@@ -5,6 +5,11 @@ import { TokenSignature as ITokenSignature } from "../types/token";
 import { Base64Url } from "../types/util";
 import { TokenSignatureJSON } from "../types/tokenJSON";
 
+/**
+ * A class that represents and manages information about the tokens signature.
+ * @template Configuration The configuration of the token.
+ * @template Token The type of the token.
+ */
 export class TokenSignature<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> implements ITokenSignature<Configuration> {
     /**
      * A Base64Url encoded string of the signature.

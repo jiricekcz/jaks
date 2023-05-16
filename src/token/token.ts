@@ -33,17 +33,18 @@ export class Token<Configuration extends TokenConfiguration> implements IToken<C
      * @param options Options to construc the token.
      */
     constructor(options: TokenConstructorOptions<Configuration>) {
-        this.header = new TokenHeader({
+        this.header = new TokenHeader<Configuration, this>({
             token: this,
             algorithm: options.algorithm,
         });
 
-        this.payload = new TokenPayload({
+        this.payload = new TokenPayload<Configuration, this>({
             token: this,
         });
 
-        this.signature = new TokenSignature({
+        this.signature = new TokenSignature<Configuration, this>({
             token: this,
+            signatureString: options.signatureString,
         });
 
     }

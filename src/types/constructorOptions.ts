@@ -1,6 +1,6 @@
 import { TokenConfiguration } from "./tokenConfig";
 import { Token as IToken } from "./token"
-import { Base64Url } from "./util";
+import { Base64Url, PropFromHas } from "./util";
 
 /**
  * A constructor options object for a token header.
@@ -26,7 +26,12 @@ export type TokenConstructorOptions<Configuration extends TokenConfiguration> = 
     /**
      * The algorithm that the token is signed with.
      */
-    algorithm: Configuration["header"]["alg"],
+    readonly algorithm: Configuration["header"]["alg"],
+
+    /**
+     * Base64Url encoded string of the token signature
+     */
+    readonly signatureString: Base64Url,
 }  
 
 /**
@@ -39,6 +44,42 @@ export type TokenPayloadConstructorOptions<Configuration extends TokenConfigurat
      * Reference back to the token
      */
     readonly token: Token,
+
+    /**
+     * The subject of the token.
+     */
+    readonly subject: Configuration["payload"]["sub"],
+
+    /**
+     * The issuer of the token.
+     */
+    readonly issuer: Configuration["payload"]["iss"],
+
+    /**
+     * The audience of the token.
+     */
+    readonly audience: Configuration["payload"]["aud"],
+
+    /**
+     * The expiration time of the token.
+     */
+    readonly expirationTime: Date,
+
+    /**
+     * The time that the token was issued.
+     */
+    readonly issuedAt: PropFromHas<Configuration["payload"]["hasIAT"], Date>,
+
+    /**
+     * The time that the token will be valid from.
+     */
+    readonly notBefore: PropFromHas<Configuration["payload"]["hasNBF"], Date>,
+
+    /**
+     * The id of the token.
+     */
+    readonly id: Configuration["payload"]["jti"],
+
 }
 
 /**
@@ -56,4 +97,11 @@ export type TokenSignatureConstructorOptions<Configuration extends TokenConfigur
      * A Base64Url encoded string of the signature.
      */
     readonly signatureString: Base64Url,
+}
+
+export type TokenPluginsConstructorOptions<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> = {
+    /**
+     * Reference back to the token
+     */
+    readonly token: Token,
 }
