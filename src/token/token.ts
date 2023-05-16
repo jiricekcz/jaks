@@ -40,6 +40,14 @@ export class Token<Configuration extends TokenConfiguration> implements IToken<C
 
         this.payload = new TokenPayload<Configuration, this>({
             token: this,
+            audience: options.audience,
+            expirationTime: options.expirationTime,
+            id: options.id,
+            issuedAt: options.issuedAt,
+            issuer: options.issuer,
+            notBefore: options.notBefore,
+            subject: options.subject,
+
         });
 
         this.signature = new TokenSignature<Configuration, this>({

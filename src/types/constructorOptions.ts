@@ -32,6 +32,41 @@ export type TokenConstructorOptions<Configuration extends TokenConfiguration> = 
      * Base64Url encoded string of the token signature
      */
     readonly signatureString: Base64Url,
+
+    /**
+     * The subject of the token.
+     */
+    readonly subject: Configuration["payload"]["sub"],
+
+    /**
+     * The issuer of the token.
+     */
+    readonly issuer: Configuration["payload"]["iss"],
+
+    /**
+     * The audience of the token.
+     */
+    readonly audience: Configuration["payload"]["aud"],
+
+    /**
+     * The expiration time of the token.
+     */
+    readonly expirationTime: Date,
+
+    /**
+     * The time that the token was issued.
+     */
+    readonly issuedAt: PropFromHas<Configuration["payload"]["hasIAT"], Date>,
+
+    /**
+     * The time that the token will be valid from.
+     */
+    readonly notBefore: PropFromHas<Configuration["payload"]["hasNBF"], Date>,
+
+    /**
+     * The id of the token.
+     */
+    readonly id: Configuration["payload"]["jti"],
 }  
 
 /**
