@@ -7,5 +7,12 @@ import { Token as IToken } from "./token"
  * 
  */
 export type TokenHeaderConstructorOptions<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> = {
+    /**
+     * Reference back to the token
+     */
     readonly token: Token,
+    /**
+     * The algorithm that the token will be signed with.
+     */
+    readonly algorithm: Configuration["header"]["alg"],
 }

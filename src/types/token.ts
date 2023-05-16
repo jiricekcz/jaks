@@ -1,5 +1,7 @@
 // Types for the token itself
 
+import { VersionString } from "./jaks";
+import { Algorithm } from "./jwk";
 import { TokenConfiguration } from "./tokenConfig";
 import { TokenHeaderJSON, TokenJSON, TokenPayloadJSON, TokenPluginsJSON, TokenSignatureJSON } from "./tokenJSON";
 import { Base64Url, TokenString } from "./util";
@@ -44,6 +46,16 @@ export interface TokenHeader<Configuration extends TokenConfiguration> {
      * The token that this header belongs to.
      */
     readonly token: Token<Configuration>;
+
+    /**
+     * The version of the token.
+     */
+    readonly version: VersionString;
+
+    /**
+     * The algorithm used to sign the token.
+     */
+    readonly algorithm: Algorithm;
 
     /**
      * Converts the header to a JSON representation.
