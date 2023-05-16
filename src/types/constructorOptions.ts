@@ -1,5 +1,6 @@
 import { TokenConfiguration } from "./tokenConfig";
 import { Token as IToken } from "./token"
+import { Base64Url } from "./util";
 
 /**
  * A constructor options object for a token header.
@@ -50,4 +51,9 @@ export type TokenSignatureConstructorOptions<Configuration extends TokenConfigur
      * Reference back to the token
      */
     readonly token: Token,
+
+    /**
+     * A Base64Url encoded string of the signature.
+     */
+    readonly signatureString: Base64Url,
 }
