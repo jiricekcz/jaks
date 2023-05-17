@@ -33,12 +33,33 @@ export class Token<Configuration extends TokenConfiguration> implements IToken<C
      * @param options Options to construc the token.
      */
     constructor(options: TokenConstructorOptions<Configuration>) {
-        this.header = new TokenHeader<Configuration, this>({
+        this.header = this.constructHeader(options);
+
+        this.payload = this.constructPayload(options);
+
+        this.signature = this.constructSignature(options);
+
+    }
+
+    /**
+     * Constructs the header of the token.
+     * @param options The constructor options of the token.
+     * @returns Constructed header
+     */
+    protected constructHeader(options: TokenConstructorOptions<Configuration>): TokenHeader<Configuration, this> {
+        return new TokenHeader<Configuration, this>({
             token: this,
             algorithm: options.algorithm,
         });
+    }
 
-        this.payload = new TokenPayload<Configuration, this>({
+    /**
+     * Constructs the payload of the token.
+     * @param options The constructor options of the token.
+     * @returns Constructed payload
+     */
+    protected constructPayload(options: TokenConstructorOptions<Configuration>): TokenPayload<Configuration, this> {
+        return new TokenPayload<Configuration, this>({
             token: this,
             audience: options.audience,
             expirationTime: options.expirationTime,
@@ -49,13 +70,20 @@ export class Token<Configuration extends TokenConfiguration> implements IToken<C
             subject: options.subject,
 
         });
+    }
 
-        this.signature = new TokenSignature<Configuration, this>({
+    /**
+     * Constructs the signature of the token.
+     * @param options The constructor options of the token.
+     * @returns Constructed signature
+     */
+    protected constructSignature(options: TokenConstructorOptions<Configuration>): TokenSignature<Configuration, this> {
+        return new TokenSignature<Configuration, this>({
             token: this,
             signatureString: options.signatureString,
         });
-
     }
+
 
     /**
      * Converts the token to string.

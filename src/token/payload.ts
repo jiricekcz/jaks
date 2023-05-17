@@ -72,8 +72,17 @@ export class TokenPayload<Configuration extends TokenConfiguration, Token extend
         this.issuedAt = options.issuedAt;
         this.id = options.id;
 
-        this.plugins = new TokenPluginManager({
-            token: this.token
+        this.plugins = this.constructPluginManager(options);
+    }
+
+    /**
+     * Constructs the plugin manager for the payload.
+     * @param options The options for constructing the payload
+     * @returns The plugin manager for the payload.
+     */
+    protected constructPluginManager(options: TokenPayloadConstructorOptions<Configuration, Token>): TokenPluginManager<Configuration, Token> {
+        return new TokenPluginManager({
+            token: options.token
         });
     }
 
