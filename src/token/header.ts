@@ -15,7 +15,7 @@ import { VERSION_STRING } from "../lib";
  * @template Configuration The configuration of the token.
  * @template Token The type of the token. This must still satisfy the token configuration, but can have additional properties. This generic is provided to allow for extending the token class.
  */
-export class TokenHeader<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> implements ITokenHeader<Configuration>{
+export class TokenHeader<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> implements ITokenHeader<Configuration, Token>{
     /**
      * Reference back to the token that this header belongs to.
      */

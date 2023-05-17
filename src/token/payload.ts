@@ -11,7 +11,7 @@ import { TokenPluginManager } from "./plugins";
  * @template Configuration The configuration of the token.
  * @template Token The type of the token.
  */
-export class TokenPayload<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> implements ITokenPayload<Configuration> {
+export class TokenPayload<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> implements ITokenPayload<Configuration, Token> {
     /**
      * Reference back to the token that this header belongs to.
      */

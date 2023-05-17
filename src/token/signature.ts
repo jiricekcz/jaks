@@ -10,7 +10,7 @@ import { TokenSignatureJSON } from "../types/tokenJSON";
  * @template Configuration The configuration of the token.
  * @template Token The type of the token.
  */
-export class TokenSignature<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> implements ITokenSignature<Configuration> {
+export class TokenSignature<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> implements ITokenSignature<Configuration, Token> {
     /**
      * A Base64Url encoded string of the signature.
      */

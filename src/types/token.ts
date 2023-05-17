@@ -13,17 +13,17 @@ export interface Token<Configuration extends TokenConfiguration> {
     /**
      * The header of the token.
      */
-    readonly header: TokenHeader<Configuration>;
+    readonly header: TokenHeader<Configuration, this>;
     
     /**
      * The payload of the token.
      */
-    readonly payload: TokenPayload<Configuration>;
+    readonly payload: TokenPayload<Configuration, this>;
 
     /**
      * The signature of the token.
      */
-    readonly signature: TokenSignature<Configuration>;
+    readonly signature: TokenSignature<Configuration, this>;
 
 
     /**
@@ -41,11 +41,11 @@ export interface Token<Configuration extends TokenConfiguration> {
 /**
  * A class that represents and manages information about the tokens header.
  */
-export interface TokenHeader<Configuration extends TokenConfiguration> {
+export interface TokenHeader<Configuration extends TokenConfiguration, OriginalToken extends Token<Configuration>> {
     /**
      * The token that this header belongs to.
      */
-    readonly token: Token<Configuration>;
+    readonly token: OriginalToken;
 
     /**
      * The version of the token.
@@ -71,11 +71,11 @@ export interface TokenHeader<Configuration extends TokenConfiguration> {
 /**
  * A class that represents and manages information about the tokens payload.
  */
-export interface TokenPayload<Configuration extends TokenConfiguration> {
+export interface TokenPayload<Configuration extends TokenConfiguration, OriginalToken extends Token<Configuration>> {
     /**
      * The token that this payload belongs to.
      */
-    readonly token: Token<Configuration>;
+    readonly token: OriginalToken;
 
     /**
      * The plugins that are attached to this payload.
@@ -128,11 +128,11 @@ export interface TokenPayload<Configuration extends TokenConfiguration> {
     readonly id: Configuration["payload"]["jti"];
 }
 
-export interface TokenSignature<Configuration extends TokenConfiguration> {
+export interface TokenSignature<Configuration extends TokenConfiguration, OriginalToken extends Token<Configuration>> {
     /**
      * The token that this signature belongs to.
      */
-    readonly token: Token<Configuration>;
+    readonly token: OriginalToken;
 
     /**
      * Converts the signature to a JSON representation.
