@@ -50,3 +50,24 @@ export type TokenString = `${Base64Url}.${Base64Url}.${Base64Url}`;
 export type PropFromHas<Has extends boolean, Type> = Has extends true ? Type : (
     Has extends false ? undefined : Type | undefined
 )
+
+
+export const FORMATS = ["Base64Url", "JSON", "string"] as const;
+/**
+ * Data formats
+ */
+export type Format = typeof FORMATS[number];
+
+/**
+ * Map of formats to types.
+ */
+export type FormatMap = {
+    "Base64Url": Base64Url,
+    "JSON": Record<string, unknown>,
+    "string": string,
+}
+
+/**
+ * Type that determines the type of a property based on format.
+ */
+export type TypeFromFormat<SpecificFormat extends Format> = FormatMap[SpecificFormat];

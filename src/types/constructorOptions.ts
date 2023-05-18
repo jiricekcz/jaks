@@ -1,11 +1,13 @@
 import { TokenConfiguration } from "./tokenConfig";
 import { Token as IToken } from "./token"
-import { Base64Url, PropFromHas } from "./util";
+import { Base64Url, Format, PropFromHas, TypeFromFormat } from "./util";
+import { CustomHeaderJSONSchema, CustomPayloadJSONSchema } from "../validators/token";
+import { TokenJSON } from "./tokenJSON";
 
 /**
  * A constructor options object for a token header.
- * @param Configuration The configuration of the token.
- * @param Token The type of the token. This must still satisfy the token configuration, but can have additional properties. This generic is provided to allow for extending the token class.
+ * @template Configuration The configuration of the token.
+ * @template Token The type of the token. This must still satisfy the token configuration, but can have additional properties. This generic is provided to allow for extending the token class.
  */
 export type TokenHeaderConstructorOptions<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> = {
     /**
@@ -20,7 +22,7 @@ export type TokenHeaderConstructorOptions<Configuration extends TokenConfigurati
 
 /**
  * A constructor options object for a token.
- * @param Configuration The configuration of the token.
+ * @template Configuration The configuration of the token.
  */
 export type TokenConstructorOptions<Configuration extends TokenConfiguration> = {
     /**
@@ -71,8 +73,8 @@ export type TokenConstructorOptions<Configuration extends TokenConfiguration> = 
 
 /**
  * A constructor options object for a token payload.
- * @param Configuration The configuration of the token.
- * @param Token The type of the token. This must still satisfy the token configuration, but can have additional properties. This generic is provided to allow for extending the token class.
+ * @template Configuration The configuration of the token.
+ * @template Token The type of the token. This must still satisfy the token configuration, but can have additional properties. This generic is provided to allow for extending the token class.
  */
 export type TokenPayloadConstructorOptions<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> = {
     /**
@@ -119,8 +121,8 @@ export type TokenPayloadConstructorOptions<Configuration extends TokenConfigurat
 
 /**
  * A constructor options object for a token signature.
- * @param Configuration The configuration of the token.
- * @param Token The type of the token. This must still satisfy the token configuration, but can have additional properties. This generic is provided to allow for extending the token class.
+ * @template Configuration The configuration of the token.
+ * @template Token The type of the token. This must still satisfy the token configuration, but can have additional properties. This generic is provided to allow for extending the token class.
  */
 export type TokenSignatureConstructorOptions<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> = {
     /**
@@ -134,9 +136,96 @@ export type TokenSignatureConstructorOptions<Configuration extends TokenConfigur
     readonly signatureString: Base64Url,
 }
 
+/**
+ * A constructor options object for a token plugins.
+ */
 export type TokenPluginsConstructorOptions<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> = {
     /**
      * Reference back to the token
      */
     readonly token: Token,
+}
+
+/**
+ * A constructor options object for a token parser.
+ */
+export type ParserConstructorOptions<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> = {
+    /**
+     * A custom header ZOD validator for the token.
+     */
+    headerSchema?: CustomHeaderJSONSchema<Configuration>;
+
+    /**
+     * A custom payload ZOD validator for the token.
+     */
+    payloadSchema?: CustomPayloadJSONSchema<Configuration>;
+
+    /**
+     * Creates the token from a JSON object.
+     * @param json The JSON to parse the token from.
+     * @returns The token.
+     */
+    jsonToToken: (json: TokenJSON<Configuration>) => Token,
+}
+
+/**
+ * Construtor options for a generic JAKS error.
+ */
+export type JAKSErrorConstructorOptions = {
+    /**
+     * The origin of the error.
+     * @example "Token.toJSON()"
+     */
+    origin: string,
+    
+    /**
+     * The additional message of the error.
+     */
+    message?: string,
+
+    /**
+     * The message to override the default message with.
+     */
+    messageOverride?: string,
+
+    /**
+     * The original error that was thrown.
+     */
+    originalError?: Error
+};
+
+/**
+ * Construtor options for a JAKS parser error.
+ */
+export type JAKSParserErrorConstructorOptions<ParseFrom extends Format, ParseTo extends Format> = {
+
+    /**
+     * The origin of the error.
+     */
+    origin: string,
+
+    /**
+     * Additional message of the error.
+     */
+    message?: string,
+
+    /**
+     * The format that the parser was parsing from.
+     */
+    parseFrom: ParseFrom,
+
+    /**
+     * The format that the parser was parsing to.
+     */
+    parseTo: ParseTo,
+
+    /**
+     * The original value that was being parsed.
+     */
+    original: TypeFromFormat<ParseFrom>
+
+    /**
+     * The original error that was thrown.
+     */
+    originalError?: Error
 }
