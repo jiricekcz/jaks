@@ -8,3 +8,12 @@ import { Base64Url } from "../types/util";
 export function toBase64Url(string: string): Base64Url {
     return base64url.encode(string, "utf-8") as Base64Url; // Type assertion is safe because base64url.encode returns a string that we trust is in the correct format.
 }
+
+/**
+ * Converts a base64url string to a UTF-8 string.
+ * @param base64url String in base64url format to convert to a UTF-8 string.
+ * @returns The UTF-8 string representation of the base64url string.
+ */
+export function fromBase64Url(base64: Base64Url): string {
+    return base64url.decode(base64, "utf-8"); 
+}
