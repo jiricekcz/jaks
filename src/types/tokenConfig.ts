@@ -1,6 +1,7 @@
 // Types regrading JAKS token configuration
 
 import { Algorithm } from "./jwk";
+import { PluginRuntime } from "./plugins";
 import { StringOrURI } from "./util";
 
 /**
@@ -25,7 +26,7 @@ export type TokenHeaderConfiguration = {
  * By extending this type, you create a specific token payload configuration, that can then provide comprehensive type signatures for all of its elements.
  * This is just a type agregate. You should **never** create objects of this type 
  */
-export type TokenPayloadConfiguration = { 
+export type TokenPayloadConfiguration = {
     /**
      * Issuer of the token.
      * Must be specified as by the JAKS specification.
@@ -66,8 +67,8 @@ export type TokenPayloadConfiguration = {
  * This type provides information on what plugins are configured for a token and with what configuration.
  */
 export type TokenPluginsConfiguration = {
-
-};
+    
+}
 
 /**
  * The full configuration of a token. 
@@ -90,4 +91,22 @@ export type TokenConfiguration = {
     plugins: TokenPluginsConfiguration;
 };
 
+/**
+ * Base type for all plugin configurations to extend.
+ */
+export interface PluginTypeConfiguration {
+    /**
+     * Type of the plugin interface, that will be present on the token payload plugin manager.
+     */
+    providedInterface: any;
 
+    /**
+     * Type, that will be exported by the plugin into the json of the token.
+     */
+    jsonShape: any;
+
+    /**
+     * The type of the runtime, that will be provided by the plugin
+     */
+    runtime: PluginRuntime;
+}
