@@ -1,7 +1,7 @@
 // Interfaces for classes that manipulate tokens
 
 // @ts-expect-error Value used only in JSDoc - not used in code - used to silence unused variable warnings
-import { ParseJAKSError } from "../errors/ParseError"; 
+import { ParseJAKSError } from "../errors/parseError"; 
 import { Token as IToken } from "./token";
 import { TokenConfiguration } from "./tokenConfig";
 import { TokenString } from "./util";
