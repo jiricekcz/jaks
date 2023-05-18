@@ -1,6 +1,7 @@
 // Interfaces for classes that manipulate tokens
 
-import { ParseJAKSError } from "../errors/ParseError";
+// @ts-expect-error Value used only in JSDoc - not used in code - used to silence unused variable warnings
+import { ParseJAKSError } from "../errors/ParseError"; 
 import { Token as IToken } from "./token";
 import { TokenConfiguration } from "./tokenConfig";
 import { TokenString } from "./util";
@@ -13,7 +14,7 @@ export interface Parser<Configuration extends TokenConfiguration, Token extends 
     /**
      * The parse function parses a token string into a token object.
      * @param tokenString Token string to parse.
-     * @throws {ParseJAKSError<"Base64Url", "JSON">} If the token string does not represent valid JSONs.
+     * @throws {ParseJAKSError<"Base64Url", "JSON">} If the token string does not represent valid.
      * @throws {ParseJAKSError<"string", "string">} If the token string is not valid
      */
     parseToken(tokenString: TokenString): Promise<Token>;
