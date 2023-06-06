@@ -4,7 +4,7 @@ import { Token as IToken } from "../types/token";
 import { TokenString } from "../types/util";
 import { fromBase64Url } from "../util/base64";
 import { ParserConstructorOptions } from "../types/constructorOptions";
-import { CustomHeaderJSONSchema, CustomPayloadJSONSchema, headerJSONDefaultSchema, payloadJSONDefaultSchema, signatureStringSchema } from "../validators/token";
+import { CustomHeaderJSONSchema, CustomPayloadJSONSchema, headerJSONDefaultSchema, payloadJSONDefaultSchema, signatureStringSchema } from "../schemas/token";
 import { ParseJAKSError } from "../errors/parseError";
 import { TokenHeaderJSON, TokenJSON, TokenPayloadJSON, TokenSignatureJSON } from "../types/tokenJSON";
 

@@ -1,7 +1,7 @@
 import { TokenConfiguration } from "./tokenConfig";
 import { Token as IToken } from "./token"
 import { Base64Url, Format, PropFromHas, TypeFromFormat } from "./util";
-import { CustomHeaderJSONSchema, CustomPayloadJSONSchema } from "../validators/token";
+import { CustomHeaderJSONSchema, CustomPayloadJSONSchema } from "../schemas/token";
 import { TokenJSON } from "./tokenJSON";
 
 /**
