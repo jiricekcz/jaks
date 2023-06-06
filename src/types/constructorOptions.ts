@@ -4,6 +4,7 @@ import { Base64Url, Format, PropFromHas, TypeFromFormat } from "./util";
 import { CustomHeaderJSONSchema, CustomPayloadJSONSchema } from "../schemas/token";
 import { TokenJSON } from "./tokenJSON";
 import { Key } from "./jwk";
+import { MatchingPattern } from "../util/matcher";
 
 /**
  * A constructor options object for a token header.
@@ -178,6 +179,11 @@ export type VerifierConstructorOptions<Configuration extends TokenConfiguration,
      * This can be the public key of a key pair, or a shared secret.
      */
     key: Key;
+
+    /**
+     * To what vaules of the `aud` claim should the token be verified against.
+     */
+    audience: MatchingPattern<Configuration["payload"]["aud"]>;
 }
 
 /**
