@@ -36,6 +36,12 @@ export interface Token<Configuration extends TokenConfiguration> {
      * This is the standard representation of a JWT token.
      */
     toString(): TokenString;
+
+    /** 
+     * Checks if the token is valid.  
+     * This is a token-isolated check, it checks the token itself, but not the token's signature.
+     */
+    isValid(): Promise<boolean>;
 }
 
 /**
@@ -126,8 +132,22 @@ export interface TokenPayload<Configuration extends TokenConfiguration, Original
      * The JWT ID of the token.
      */
     readonly id: Configuration["payload"]["jti"];
+
+    /**
+     * Checks if the token before the expiration time.
+     */
+    isBeforeExpiration(): boolean;
+
+    /**
+     * Checks if the token is after the not before time.  
+     * If the token does not have a not before time, this will return true.
+     */
+    isAfterNotBefore(): boolean;
 }
 
+/**
+ * A class that represents and manages information about the tokens signature.
+ */
 export interface TokenSignature<Configuration extends TokenConfiguration, OriginalToken extends Token<Configuration>> {
     /**
      * The token that this signature belongs to.
@@ -145,6 +165,9 @@ export interface TokenSignature<Configuration extends TokenConfiguration, Origin
     toString(): Base64Url;
 }
 
+/**
+ * A class that represents and manages information about the tokens plugins.
+ */
 export interface TokenPluginManager<Configuration extends TokenConfiguration> {
     /**
      * The token that this plugin manager belongs to.

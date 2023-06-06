@@ -106,4 +106,12 @@ export class TokenPayload<Configuration extends TokenConfiguration, Token extend
     toString(): Base64Url {
         return toBase64Url(JSON.stringify(this.toJSON()));
     }
+
+    isAfterNotBefore(at: Date = new Date()): boolean {
+        return this.notBefore === undefined || this.notBefore <= at;
+    }
+
+    isBeforeExpiration(at: Date = new Date()): boolean {
+        return this.expirationTime > at;
+    }
 }

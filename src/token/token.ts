@@ -105,4 +105,14 @@ export class Token<Configuration extends TokenConfiguration> implements IToken<C
         }
     }
 
+    async isValid(): Promise<boolean> {
+        // Check if the token is expired.
+        if (!this.payload.isBeforeExpiration()) return false;
+
+        // Check if the token is not yet valid.
+        if (!this.payload.isAfterNotBefore()) return false;
+
+        return true; // If all exclusion checks pass, then the token is valid.
+    }
+
 }
