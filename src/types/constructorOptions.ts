@@ -169,6 +169,13 @@ export type ParserConstructorOptions<Configuration extends TokenConfiguration, T
 }
 
 /**
+ * A constructor options object for a token verifier.
+ */
+export type VerifierConstructorOptions<Configuration extends TokenConfiguration, Token extends IToken<Configuration>> = ParserConstructorOptions<Configuration, Token> & {
+    
+}
+
+/**
  * Construtor options for a generic JAKS error.
  */
 export type JAKSErrorConstructorOptions = {
