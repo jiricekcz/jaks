@@ -39,6 +39,13 @@ export interface Verifier<Configuration extends TokenConfiguration, Token extend
      * @param tokenString
      */
     parseThenVerifyToken(tokenString: TokenString): Promise<Token| null>;
+
+    /**
+     * Parses a token string to a token and then verifies the signature of the token.
+     * If parsing or verification fails, returns null.
+     * @param tokenString
+     */
+    parseThenVerifyTokenSafe(tokenString: TokenString): Promise<Token | null>;
 }
 
 /**
